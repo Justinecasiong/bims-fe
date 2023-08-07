@@ -274,7 +274,6 @@ export default {
             await axios
                 .get(`/certification_request?search=${this.id}`)
                 .then((response) => {
-                    console.log(response.data.data[0].resident);
                     this.residents = response.data.data[0].resident;
                 });
             this.loading = false;

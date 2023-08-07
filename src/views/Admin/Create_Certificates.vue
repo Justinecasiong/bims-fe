@@ -148,8 +148,7 @@ export default {
 
             await axios
                 .post("/position", data)
-                .then((response) => {
-                    console.log(response.data);
+                .then(() => {
                     this.$toast.success("Position Title has been created.");
                     this.fetchPosition();
                     this.resetFields();

@@ -218,7 +218,6 @@ export default {
                 (this.fullname == "" || this.username == "")
             ) {
                 this.$toast.error("Please fill out all fields!");
-                console.log(this.fullname);
                 this.loading = false;
             } else if (
                 this.showPasswords == true &&
@@ -228,7 +227,6 @@ export default {
             ) {
                 this.$toast.error("Please fill out all fields!");
                 this.loading = false;
-                console.log(this.showPasswords);
             } else if (
                 this.showPasswords == true &&
                 this.password != this.confirm_password

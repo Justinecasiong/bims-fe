@@ -1,12 +1,17 @@
-# 基础镜像
-FROM node:12.2.0-alpine
+# install node
+FROM node:16.3.0-alpine
 
-# 设置项目目录
-WORKDIR /app
+# make the 'app' folder the current working directory
+WORKDIR /usr/app
 
-# 安装依赖
-COPY package.json .
+# copy both 'package.json' and 'package-lock.json' (if available)
+COPY package*.json ./
+
+# install project dependencies
 RUN npm install
 
-# 启动项目
-CMD ["npm", "run", "serve"]
+# copy project files and folders to the current working directory (i.e. 'app' folder)
+COPY . .
+
+# serve application in development
+CMD [ "npm", "start" ]

@@ -174,7 +174,6 @@ export default {
             ) {
                 this.$toast.error("Please fill out all fields!");
                 this.loading = false;
-                console.log(this.showPasswords);
             } else if (
                 this.showPasswords == true &&
                 this.password != this.confirm_password

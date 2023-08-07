@@ -53,7 +53,7 @@
             <td>{{ household.sex }}</td>
             <td>{{ household.civil_status }}</td>
             <td>{{ household.birthdate }}</td>
-            <td>{{ household.age }}</td>
+            <td>{{ getAge(household.birthdate) }}</td>
             <td>{{ household.relationship }}</td>
             <td>{{ household.education }}</td>
             <td v-if="permission == 'bspo'">
@@ -86,6 +86,21 @@
                 @click="viewDetails(household)"
               >
                 View Details
+              </button>
+              <button
+                v-if="permission == 'chairperson' || permission == 'secretary'"
+                class="btn btn-secondary mb-2"
+                @click="createRequest(household, household.household_head_id)"
+              >
+                <i class="fas fa-file"></i>
+              </button>
+
+              <button
+                v-if="permission == 'chairperson' || permission == 'secretary'"
+                class="btn btn-secondary mb-2"
+                @click="openConfirmationModal(household, household.household_head_id)"
+              >
+                <i class="fas fa-user"></i>
               </button>
             </td>
           </tr>
@@ -209,14 +224,10 @@
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="gender" class="control-label"> Sex: </label>
-                <input
-                  required
-                  type="text"
-                  class="form-control"
-                  id="gender"
-                  placeholder="Enter Sex"
-                  v-model="householdDetails.sex"
-                />
+                <select  class="form-control" id="gender" placeholder="Enter Sex" v-model="householdDetails.sex" >
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
                 <div v-if="this.errors.sex">
                   <label style="color: red; font-weight: 500">{{
                     this.errors.sex[0]
@@ -269,24 +280,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-4">
-              <div class="form-group">
-                <label for="age" class="control-label"> Age: </label>
-                <input
-                  required
-                  type="number"
-                  class="form-control"
-                  id="age"
-                  placeholder="Enter Age"
-                  v-model="householdDetails.age"
-                />
-                <div v-if="this.errors.age">
-                  <label style="color: red; font-weight: 500">{{
-                    this.errors.age[0]
-                  }}</label>
-                </div>
-              </div>
-            </div>
+            
           </div>
           <div class="row">
             <div class="col-sm-4">
@@ -481,17 +475,44 @@
                 <label for="residency" class="control-label">
                   How long of Residency:
                 </label>
-                <input
-                  required
-                  type="text"
+                <br>
+                <small>
+                  Year Started
+                </small>
+                <select
                   class="form-control"
                   id="residency"
-                  placeholder="Enter here"
                   v-model="householdDetails.residency"
-                />
+                >
+                  <option 
+                  v-for="(year, index) in years"
+                    :key="index"
+                    :value="year"
+                  >{{ year }}</option>
+                </select>
                 <div v-if="this.errors.residency">
                   <label style="color: red; font-weight: 500">{{
                     this.errors.residency[0]
+                  }}</label>
+                </div>
+                <small>
+                  Year Ended
+                </small>
+                <select
+                  class="form-control"
+                  id="residency_end"
+                  v-model="householdDetails.residency_end"
+                >
+                  <option v-bind:value="null">Present (Currently a resident)</option>
+                  <option 
+                  v-for="(year, index) in years"
+                    :key="index"
+                    :value="year"
+                  >{{ year }}</option>
+                </select>
+                <div v-if="this.errors.residency_end">
+                  <label style="color: red; font-weight: 500">{{
+                    this.errors.residency_end[0]
                   }}</label>
                 </div>
               </div>
@@ -753,24 +774,6 @@
                 </div>
               </div>
             </div>
-            <div class="col-sm-4">
-              <div class="form-group">
-                <label for="age" class="control-label"> Age: </label>
-                <input
-                  required
-                  type="number"
-                  class="form-control"
-                  id="age"
-                  placeholder="Enter Age"
-                  v-model="familyMember.age"
-                />
-                <div v-if="this.errors.age">
-                  <label style="color: red; font-weight: 500">{{
-                    this.errors.age[0]
-                  }}</label>
-                </div>
-              </div>
-            </div>
           </div>
           <div class="row">
             <div class="col-sm-4">
@@ -965,17 +968,44 @@
                 <label for="residency" class="control-label">
                   How long of Residency:
                 </label>
-                <input
-                  required
-                  type="text"
+                <br>
+                <small>
+                  Year Started
+                </small>
+                <select
                   class="form-control"
                   id="residency"
-                  placeholder="Enter here"
                   v-model="familyMember.residency"
-                />
+                >
+                  <option 
+                  v-for="(year, index) in years"
+                    :key="index"
+                    :value="year"
+                  >{{ year }}</option>
+                </select>
                 <div v-if="this.errors.residency">
                   <label style="color: red; font-weight: 500">{{
                     this.errors.residency[0]
+                  }}</label>
+                </div>
+                <small>
+                  Year Ended
+                </small>
+                <select
+                  class="form-control"
+                  id="residency_end"
+                  v-model="familyMember.residency_end"
+                >
+                  <option v-bind:value="null">Present (Currently a resident)</option>
+                  <option 
+                  v-for="(year, index) in years"
+                    :key="index"
+                    :value="year"
+                  >{{ year }}</option>
+                </select>
+                <div v-if="this.errors.residency_end">
+                  <label style="color: red; font-weight: 500">{{
+                    this.errors.residency_end[0]
                   }}</label>
                 </div>
               </div>
@@ -1060,17 +1090,170 @@
         </div>
       </form>
     </b-modal>
+    <b-modal
+      id="modal-create-request"
+      size="md"
+      title="Request Certification"
+      centered
+      @ok.prevent="createCertificationRequest()"
+      ok-only
+      ok-title="Request"
+    >
+      <div class="form-group">
+        <label for="certification_request" class="control-label">
+          Type of Certification:
+        </label>
+        <select
+          class="form-select"
+          name="civil-status"
+          id="civil_status"
+          v-model="certification_id"
+        >
+          <option
+            v-for="certification in certifications"
+            :key="certification.id"
+            :value="certification.id"
+          >
+            {{ certification.certification_description }}
+          </option>
+        </select>
+        <!-- <div v-if="this.errors">
+                        <label style="color: red; font-weight: 500">{{
+                            this.errors.purpose[0]
+                        }}</label>
+                    </div> -->
+      </div>
+      <div v-if="certification_id == 4">
+        <div class="form-group">
+          <label for="certification_request" class="control-label">
+            Business Name:
+          </label>
+          <input
+            v-model="business_name"
+            type="text"
+            class="form-control"
+            name="certification_request"
+            id="certification_request"
+          />
+        </div>
+        <div class="form-group">
+          <label for="certification_request" class="control-label">
+            Business Owner:
+          </label>
+          <input
+            v-model="business_owner"
+            type="text"
+            class="form-control"
+            name="certification_request"
+            id="certification_request"
+          />
+        </div>
+        <div class="form-group">
+          <label for="certification_request" class="control-label">
+            Business Nature:
+          </label>
+          <input
+            v-model="business_nature"
+            type="text"
+            class="form-control"
+            name="certification_request"
+            id="certification_request"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="certification_request" class="control-label">
+          Purpose:
+        </label>
+        <input
+          v-model="purpose"
+          type="text"
+          class="form-control"
+          name="certification_request"
+          id="certification_request"
+        />
+        <!-- <div v-if="this.errors">
+                        <label style="color: red; font-weight: 500">{{
+                            this.errors.purpose[0]
+                        }}</label>
+                    </div> -->
+      </div>
+      <div class="form-group">
+        <label for="certification_request" class="control-label">
+          Expected Date:
+        </label>
+        <input type="date" v-model="expected_date" class="form-control" />
+        <div v-if="errors.expected_date">
+          <label style="color: red; font-weight: 500">{{
+            this.errors.expected_date
+          }}</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="certification_request" class="control-label">
+          Expected Time:
+        </label>
+        <select
+          class="form-select"
+          id="inputGroupSelect01"
+          v-model="expected_time"
+        >
+          <option :value="'8:00AM-12:00NN'">8:00AM-12:00NN</option>
+          <option :value="'1:00PM-5:00PM'">1:00PM-5:00PM</option>
+        </select>
+        <div v-if="errors.expected_time">
+          <label style="color: red; font-weight: 500">{{
+            this.errors.expected_time
+          }}</label>
+        </div>
+      </div>
+    </b-modal>
+
+    <b-modal
+      id="modal-confirmation"
+      size="md"
+      title="Confirmation"
+      centered
+      @ok.prevent="addAsMother()"
+      cancel-title="Cancel"
+      @hidden="resetFields()"
+      ok-title="Confirm"
+    >
+      <div class="text-center">
+        <h6><b>Add member as a mother?</b></h6>
+      </div>
+    </b-modal>
   </div>
 </template>
 
 <script>
 import axios from "../../axios";
+import moment from "moment";
 export default {
   data() {
     return {
+      
+      business_name: null,
+      business_owner: null,
+      business_nature: null,
       allFamilyRecords: [],
       householdDetails: {},
+      certifications: [],
+      resident_id: null,
+      years:[],
+      certification_id: null,
+      purpose: null,
+      status: null,
+      time: null,
+      isMember:null,
+      motherForeignId: null,
+      date: null,
+      expected_time: null,
+      expected_date: null,
       familyMember: {
+        id:null,
+        resident_id: null,
         household_head_id: null,
         zone_id: 1,
         family_num: null,
@@ -1089,6 +1272,7 @@ export default {
         senior_citizen: "No",
         oosy: "No",
         residency: null,
+        residency_end: null,
         address: "",
         remarks: "",
       },
@@ -1114,7 +1298,18 @@ export default {
     async fetchZones() {
       await this.$store.dispatch("ZONES/FETCH_ZONES");
     },
-
+    async fetchCertification() {
+      this.loading = true;
+      await axios
+        .get(`/certification?page=${this.currentPage}`)
+        .then((response) => {
+          this.certifications = response.data.data;
+        })
+        .catch((error) => {
+          return error.response;
+        });
+      this.loading = false;
+    },
     async fetchHouseholdHeads() {
       await axios
         .get(
@@ -1158,6 +1353,45 @@ export default {
       this.$bvModal.show("modal-view-member");
     },
 
+    createRequest(data, isMember) {
+      this.resident_id = data.resident_id;
+      data.resident_id 
+        ? this.$bvModal.show("modal-create-request")
+        : this.retrieveResidentId(data.id, isMember)
+      
+      
+    },
+
+    openConfirmationModal(data, isMember) {
+      this.motherForeignId = data.id;
+      this.isMember = isMember;
+      this.$bvModal.show("modal-confirmation");
+    },
+
+    addAsMother() {
+      let data  = {
+        id: this.motherForeignId,
+        is_head: this.isMember ? null : 1
+      }
+
+      axios.post("/add-household-member-mother", data).then(() => {
+          this.$toast.success("Member added as mother successful");
+          this.$bvModal.hide("modal-confirmation");
+        });
+    },
+
+    retrieveResidentId(id, isMember) {
+      let data  = {
+        id: id,
+        is_head: isMember ? null : 1
+      }
+
+      axios.post("/get-resident-id-from-member", data).then((response) => {
+          this.resident_id = response.data.resident_id;
+          this.$bvModal.show("modal-create-request");
+        });
+    },
+
     closeViewDetails() {
       this.householdDetails = {};
       this.$bvModal.hide("modal-view");
@@ -1168,6 +1402,7 @@ export default {
     },
 
     async updateHouseholdMember() {
+      this.errors = [];
       const data = {
         id: this.familyMember.id,
         household_head_id: this.familyMember.household_head_id,
@@ -1188,27 +1423,30 @@ export default {
         senior_citizen: this.familyMember.senior_citizen,
         oosy: this.familyMember.oosy,
         residency: this.familyMember.residency,
+        residency_end: this.familyMember.residency_end,
         address: this.familyMember.address,
         zone_id: this.familyMember.zone_id,
         remarks: this.familyMember.remarks,
         remember_token: localStorage.getItem("token"),
       };
       this.loading = true;
-      this.$bvModal.hide("modal-view-member");
-      this.allFamilyRecords = [];
       await axios
         .put(`/update-household-member-record/${data.id}`, data)
         .then(async () => {
+          this.$bvModal.hide("modal-view-member");
+          this.allFamilyRecords = [];
+          this.loading = false;
           await this.fetchHouseholdHeads();
           this.$toast.success("Record has been updated.");
         })
         .catch(async (error) => {
-          await this.fetchHouseholdHeads();
+          this.loading = false;
           this.errors = error.response.data.errors;
         });
     },
 
     async updateHousehold() {
+      this.errors = [];
       const data = {
         id: this.householdDetails.id,
         household_num: this.householdDetails.household_num,
@@ -1228,36 +1466,110 @@ export default {
         senior_citizen: this.householdDetails.senior_citizen,
         oosy: this.householdDetails.oosy,
         residency: this.householdDetails.residency,
+        residency_end: this.householdDetails.residency_end,
         address: this.householdDetails.address,
         zone_id: this.householdDetails.zone_id,
         remarks: this.householdDetails.remarks,
         remember_token: localStorage.getItem("token"),
       };
       this.loading = true;
-      this.$bvModal.hide("modal-view");
-      this.allFamilyRecords = [];
       await axios
         .put(`/update-household-head-record/${data.id}`, data)
         .then(async () => {
+        this.$bvModal.hide("modal-view");
+        this.allFamilyRecords = [];
+        this.loading = false;
           await this.fetchHouseholdHeads();
           this.$toast.success("Record has been updated.");
         })
         .catch(async (error) => {
-          await this.fetchHouseholdHeads();
+          this.loading = false;
           this.errors = error.response.data.errors;
         });
     },
-
+    getAge(birthdate) {
+      let age = moment().diff(birthdate, 'years');
+      return age >= 1 ? age : 0
+    },
     async searchRecord() {
       this.loading = true;
       this.allFamilyRecords = [];
       await this.fetchHouseholdHeads();
     },
+    isToday(date) {
+      const today = new Date();
+      if (today.toDateString() === date.toDateString()) {
+        return true;
+      }
+      return false;
+    },
+    async createCertificationRequest() {
+      if (
+        new Date() > new Date(moment(this.expected_date).format("L")) &&
+        !this.isToday(new Date(this.expected_date))
+      ) {
+        this.errors = {
+          expected_date: "Expected date must be today or ahead.",
+        };
+      } else {
+        const data = {
+          resident_id: this.resident_id,
+          certification_id: this.certification_id,
+          purpose: this.purpose,
+          expected_time: this.expected_time,
+          expected_date: this.expected_date,
+          time: this.expected_time,
+          date: this.expected_date,
+          status: "Unpaid Certificates",
+        };
+
+        await axios.post("/certification_request", data).then((response) => {
+          if (this.certification_id == 4) {
+            var data2 = {
+              business_name: this.business_name,
+              business_owner: this.business_owner,
+              business_nature: this.business_nature,
+              certification_request_id: response.data.id,
+            };
+
+            axios.post("/business_permit", data2);
+          }
+          this.$toast.success("Certification Request has been created.");
+          this.$bvModal.hide("modal-create-request");
+          this.resetFields();
+        });
+      }
+    },
+
+    resetFields(){
+      this.business_name = null;
+      this.business_owner = null;
+      this.business_nature = null;
+      this.resident_id = null;
+      this.certification_id = null;
+      this.purpose = null;
+      this.time = null;
+      this.status = null;
+      this.date = null;
+      this.expected_time = null;
+      this.expected_date = null;
+      this.isMember = null;
+      this.motherForeignId =null;
+    },
+    generateYears(){
+      var currentYear =  (new Date()).getFullYear();
+      this.years = [];
+      for(var i = currentYear; i > (currentYear - 100); i--){
+        this.years.push(i);
+      }
+    }
   },
 
   async mounted() {
+    this.generateYears();
     await this.fetchZones();
     await this.fetchHouseholdHeads();
+    this.fetchCertification();
   },
 };
 </script>

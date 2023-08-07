@@ -11,7 +11,7 @@
         class="form-select"
         id="inputGroupSelect01"
         v-model="search_status"
-        v-on:click="fetchCertificationRequest()"
+        v-on:click="currentPage = 1; fetchCertificationRequest()"
        >
         <option :value="'Pending'">Pending</option>
         <option :value="'Printed'">Printed</option>
@@ -700,13 +700,13 @@ export default {
   async fetchCertificationRequest() {
    this.loading = true;
    await axios
-    .get(`/certification_request?page=${this.currentPage}`)
+    .get(`/certification_request?page=${this.currentPage}&status=${this.search_status}`)
     .then((response) => {
      this.certification_requests = response.data.data;
+
      this.currentPage = response.data.current_page;
      this.rows = response.data.total;
      this.perPage = response.data.per_page;
-     console.log(new Date(moment(this.certification_requests[0].date).format("LL")).getTime() <= new Date(this.today).getTime());
     })
     .catch((error) => {
      return error.response;
@@ -752,7 +752,6 @@ export default {
     await axios
      .post("/certification_request", data)
      .then((response) => {
-      console.log(response.data);
       if (this.certification_id == 4) {
        var data2 = {
         business_name: this.business_name,

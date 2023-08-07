@@ -718,7 +718,6 @@ export default {
    await axios
     .post("/barangay_officals", data)
     .then((response) => {
-     console.log(response);
      this.$toast.success("Official Data has been created.");
      this.fetchOfficial();
      this.resetFields();
@@ -771,8 +770,7 @@ export default {
 
    await axios
     .put(`/barangay_officals/${data.id}`, data)
-    .then((response) => {
-     console.log(response);
+    .then(() => {
      this.$toast.success("Official Data has been updated.");
      this.fetchOfficial();
      this.resetFields();

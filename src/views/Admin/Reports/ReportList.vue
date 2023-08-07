@@ -235,7 +235,6 @@ export default {
   },
 
   onFileChange(e) {
-   console.log(e.target.files[0]);
    this.file = e.target.files[0];
   },
 

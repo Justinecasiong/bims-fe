@@ -136,6 +136,16 @@
       >
         <div class="col card shadow text-center">
           <div class="card-header">
+            <div class="card-title fw-bold">Population by Year</div>
+          </div>
+          <GChart
+            type="ColumnChart"
+            :data="populationByYearData"
+            :options="populationByYearOptions"
+          />
+        </div>
+        <div class="col card shadow text-center">
+          <div class="card-header">
             <div class="card-title fw-bold">Age Structure</div>
           </div>
           <GChart
@@ -152,6 +162,16 @@
             type="ColumnChart"
             :data="edAttainments"
             :options="edAttainmentsOptions"
+          />
+        </div>
+        <div class="col card shadow text-center">
+          <div class="card-header">
+            <div class="card-title fw-bold">Occupation</div>
+          </div>
+          <GChart
+            type="ColumnChart"
+            :data="occupations"
+            :options="occupationsOptions"
           />
         </div>
         <div class="col card-header">
@@ -312,6 +332,7 @@ export default {
 
       ageStructure: [],
       edAttainments: [],
+      occupations: [],
 
       permission: localStorage.getItem("permission"),
       resident_id: localStorage.getItem("resident_id"),
@@ -411,7 +432,7 @@ export default {
           }
         },
       },
-
+      populationByYearData: [],
       populationData: [],
       populationOptions: {
         pieHole: 0.4,
@@ -425,6 +446,39 @@ export default {
           "#B74545",
           "#FDDFD7",
         ],
+      },
+
+      populationByYearOptions: {
+        pieHole: 0.4,
+        height: 350,
+        legend: { position: "top", maxLines: 3 },
+        colors: [
+          "#97B495",
+          "#87BACD",
+          "#F1BDA7",
+          "#E7BDD1",
+          "#B74545",
+        ],
+      },
+
+      occupationsOptions:{
+        legend: { position: "top" },
+        bar: { groupWidth: "100%" },
+        // height: 400,
+        series: {
+          0: { color: "#87BACD" },
+          1: { color: "#E7BDD1" },
+          2: { color: "#FDDFD7" },
+          3: { color: "#87AACD" },
+          4: { color: "#E7ADD1" },
+          5: { color: "#FDAFD7" },
+          6: { color: "#87CACD" },
+          7: { color: "#E7CDD1" },
+          8: { color: "#FDCFD7" },
+          9: { color: "#87DACD" },
+          10: { color: "#EDBDD1" },
+          11: { color: "#FEDFD7" },
+        },
       },
 
       ageStructureOptions: {
@@ -461,13 +515,14 @@ export default {
       revenueDataByYear: [],
       revenueDataByMonth: [],
       revenueOptions: {
-        legend: { position: "top", maxLines: 3 },
+        legend: { position: "top", maxLines: 6 },
         bar: { groupWidth: "75%" },
         // height: 400,
         series: {
           0: { color: "#87BACD" },
           1: { color: "#E7BDD1" },
           2: { color: "#FDDFD7" },
+          4: { color: "#FDBBD7" },
         },
       },
     };
@@ -531,6 +586,61 @@ export default {
         });
     },
 
+    async fetchOccupations() {
+      
+      this.loading = true;
+      await axios.get(`/occupations`).then((response) => {
+        let data = response.data;
+        this.occupations.push(
+        [
+          "Year",
+          "Government Employee",
+          "Private Employee",
+          "Barangay Employee",
+          "Barangay Volunteers",
+          "OFW",
+          "Business",
+          "Carpenter",
+          "Laborer/Construction",
+          "Driver",
+          "Sari-sari Store",
+          "Helper",
+          "Self-Employed",
+        ],[
+          "2023",
+          data.government_employee, 
+          data.private_employee,
+          data.barangay_employee,
+          data.barangay_volunteers,
+          data.ofw,
+          data.business,
+          data.carpenter,
+          data.laborer_construction,
+          data.driver,
+          data.sari_sari_store,
+          data.helper,
+          data.self_employed,
+        ]);
+      });
+      this.loading = false;
+      this.fetchPopulationByYear();
+    },
+
+    async fetchPopulationByYear() {
+      
+      this.loading = true;
+      await axios.get(`/get-population-by-year`).then((response) => {
+
+        let data = response.data;
+        this.populationByYearData.push(
+          ["Population Type", "2023", "2022", "2021", "2020", "2019"],
+          ["Year", data[2023],  data[2022],  data[2021],  data[2020],  data[2019],]
+        )
+      });
+      this.loading = false;
+    
+    },
+
     async fetchRevenue() {
       var data = {
         year: new Date().getFullYear(),
@@ -545,12 +655,14 @@ export default {
             "Barangay Clearance",
             "Residency Certificate",
             "Business Permit",
+            "Summon Letter",
           ],
           [
             "2023",
             response.data.barangay_clearance,
             response.data.barangay_certificate,
             response.data.business_certificate,
+            response.data.summon_letter,
           ]
         );
       });
@@ -564,78 +676,91 @@ export default {
             "Barangay Clearance",
             "Residency Certificate",
             "Business Permit",
+            "Summon Letter",
           ],
           [
             "January",
             response.data.revenue[0].barangay_clearance,
             response.data.revenue[0].barangay_certificate,
             response.data.revenue[0].business_certificate,
+            response.data.revenue[0].summon_letter,
           ],
           [
             "Febuary",
             response.data.revenue[1].barangay_clearance,
             response.data.revenue[1].barangay_certificate,
             response.data.revenue[1].business_certificate,
+            response.data.revenue[1].summon_letter,
           ],
           [
             "March",
             response.data.revenue[2].barangay_clearance,
             response.data.revenue[2].barangay_certificate,
             response.data.revenue[2].business_certificate,
+            response.data.revenue[2].summon_letter,
           ],
           [
             "April",
             response.data.revenue[3].barangay_clearance,
             response.data.revenue[3].barangay_certificate,
             response.data.revenue[3].business_certificate,
+            response.data.revenue[3].summon_letter,
           ],
           [
             "May",
             response.data.revenue[4].barangay_clearance,
             response.data.revenue[4].barangay_certificate,
             response.data.revenue[4].business_certificate,
+            response.data.revenue[4].summon_letter,
           ],
           [
             "June",
             response.data.revenue[5].barangay_clearance,
             response.data.revenue[5].barangay_certificate,
             response.data.revenue[5].business_certificate,
+            response.data.revenue[5].summon_letter,
           ],
           [
             "July",
             response.data.revenue[6].barangay_clearance,
             response.data.revenue[6].barangay_certificate,
             response.data.revenue[6].business_certificate,
+            response.data.revenue[6].summon_letter,
           ],
           [
             "August",
             response.data.revenue[7].barangay_clearance,
             response.data.revenue[7].barangay_certificate,
             response.data.revenue[7].business_certificate,
+            response.data.revenue[7].summon_letter,
           ],
           [
             "September",
             response.data.revenue[8].barangay_clearance,
             response.data.revenue[8].barangay_certificate,
             response.data.revenue[8].business_certificate,
+            response.data.revenue[8].summon_letter,
           ],
           [
             "October",
             response.data.revenue[9].barangay_clearance,
             response.data.revenue[9].barangay_certificate,
             response.data.revenue[9].business_certificate,
+            response.data.revenue[9].summon_letter,
           ],
           [
             "November",
             response.data.revenue[10].barangay_clearance,
             response.data.revenue[10].barangay_certificate,
             response.data.revenue[10].business_certificate,
+            response.data.revenue[10].summon_letter,
           ],
           [
             "December",
             response.data.revenue[11].barangay_clearance,
             response.data.revenue[11].barangay_certificate,
             response.data.revenue[11].business_certificate,
+            response.data.revenue[11].summon_letter,
           ]
         );
       });
@@ -916,6 +1041,7 @@ export default {
     this.fetchRevenue();
     this.fetchAgeStructure();
     this.fetchEducationCount();
+    this.fetchOccupations();
 
     if (this.permission == "resident") {
       this.fetchFindResidentCertificationRequest();

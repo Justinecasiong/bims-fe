@@ -52,7 +52,7 @@
               {{ envs.household.last_name }}
             </td>
             <td>{{ envs.household.birthdate }}</td>
-            <td>{{ envs.household.age }}</td>
+            <td>{{ getAge(envs.household.birthdate) }}</td>
             <td>{{ envs.household.sex }}</td>
             <td>{{ envs.vaccine_given }}</td>
             <td>{{ envs.fic }}</td>
@@ -248,6 +248,7 @@
 
 <script>
 import axios from "../../axios";
+import moment from "moment";
 export default {
   data() {
     return {
@@ -312,6 +313,11 @@ export default {
     viewDetails(data) {
       this.envDetails = data;
       this.$bvModal.show("modal-view");
+    },
+
+    getAge(birthdate) {
+      let age = moment().diff(birthdate, 'years');
+      return age >= 1 ? age : 0
     },
 
     closeViewDetails() {

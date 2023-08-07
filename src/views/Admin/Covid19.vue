@@ -319,7 +319,6 @@ export default {
             const data = {
                 remember_token: localStorage.getItem("token"),
             };
-
             await axios
                 .post(`/find-covid?page=${this.currentPage}`, data)
                 .then((response) => {
@@ -336,6 +335,7 @@ export default {
 
         async fetchCovid() {
             this.loading = true;
+            this.ids = this.ids != undefined ? this.ids : '';
             await axios
                 .get(`/covid?page=${this.currentPage}&search=${this.ids}`)
                 .then((response) => {
@@ -356,6 +356,7 @@ export default {
                 dose_num: this.dose_num,
                 booster_type: this.booster_type,
                 reason: this.reason,
+                remember_token: localStorage.getItem("token"),
             };
 
             let res = await this.$store.dispatch("COVID/STORE_COVID", data);
@@ -398,6 +399,7 @@ export default {
                 dose_num: this.dose_num,
                 booster_type: this.booster_type,
                 reason: this.reason,
+                remember_token: localStorage.getItem("token"),
             };
 
             let res = await this.$store.dispatch("COVID/UPDATE_COVID", data);
@@ -428,11 +430,9 @@ export default {
     },
 
     mounted() {
-        if (this.permission != "resident") {
-            this.fetchCovid();
-        } else if (this.permission == "resident") {
-            this.findCovid();
-        }
+        this.permission != "resident" 
+            ? this.fetchCovid()
+            : this.findCovid()
     },
 };
 </script>

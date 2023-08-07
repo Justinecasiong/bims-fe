@@ -3,7 +3,7 @@
     <div class="page-header">
       <div class="row">
         <div class="col-lg-8 col-md-5">
-          <h1>Mother</h1>
+          <h1>Mother Information</h1>
         </div>
         <div class="col search">
           <div class="input-group">
@@ -49,16 +49,18 @@
         </thead>
         <tbody>
           <tr v-for="(member, index) in members" :key="index">
+
             <td>
-              {{ member.household.first_name }}
+              {{ member.household ? member.household.first_name :  member.household_head.first_name}}
               {{
-                member.household.middle_name ? member.household.middle_name : ""
+                member.household ? (member.household.middle_name ? member.household.middle_name : "") : (member.household_head.middle_name ? member.household_head.middle_name : "")
               }}
-              {{ member.household.last_name }}
+              {{ member.household ? member.household.last_name : member.household_head.last_name }}
             </td>
-            <td>{{ member.household.birthdate }}</td>
-            <td>{{ member.household.age }}</td>
-            <td>{{ member.household.sex }}</td>
+            <td>{{ member.household ? member.household.birthdate : member.household_head.birthdate }} </td>
+            <td>{{  member.household ? getAge(member.household.age) : getAge(member.household_head.age)}}</td>
+            <td>{{  member.household ? member.household.sex : member.household_head.sex }}</td>
+
             <td>{{ member.nhts }}</td>
             <td>{{ member.family_planning }}</td>
             <td>{{ member.maternal_care_services }}</td>
@@ -385,6 +387,7 @@
 
 <script>
 import axios from "../../axios";
+import moment from "moment";
 export default {
   data() {
     return {
@@ -417,10 +420,16 @@ export default {
         });
       this.loading = false;
     },
+
+  getAge(birthdate) {
+      let age = moment().diff(birthdate, 'years');
+      return age >= 1 ? age : 0
+    },
     async updateEnv() {
       const data  = {
         id: this.envDetails.id,
         household_head_member_id: this.envDetails.household_head_member_id,
+        household_head_id: this.envDetails.household_head_id,
         nhts: this.envDetails.nhts,
         family_planning: this.envDetails.family_planning,
         maternal_care_services: this.envDetails.maternal_care_services,

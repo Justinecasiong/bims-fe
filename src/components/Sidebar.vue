@@ -25,7 +25,7 @@
     </p>
    </div>
 
-   <a v-if="permission == 'admin'">
+   <a v-if="permission == 'admin' ">
     <router-link :to="{ name: 'Logs' }">
      <i class="fas fa-bars"></i>
      <span class="menu-label">Dashboard</span>
@@ -57,7 +57,7 @@
     </router-link>
    </a>
 
-   <a v-if="permission == 'kagawad' || permission == 'bspo' || permission == 'bns' || permission == 'bhw' || permission == 'chairperson' || permission == 'secretary'">
+   <a v-if="permission == 'kagawad' || permission == 'bspo' || permission == 'chairperson' || permission == 'secretary'">
     <router-link :to="{ name: 'Household' }">
      <i class="fas fa-home"></i>
      <span class="menu-label">Households</span>
@@ -73,38 +73,6 @@
     <router-link :to="{ name: 'Family_Records' }">
      <i class="fas fa-users"></i>
      <span class="menu-label">Family Records</span>
-    </router-link>
-   </a>
-   <a v-if="permission == 'chairperson' || permission == 'secretary'">
-    <router-link :to="{ name: 'ResidentRegistration' }">
-     <i class="fas fa-registered"></i>
-     <div
-      class="notification-dot"
-      v-if="filterRegistration.length != 0"
-     ></div>
-     <span
-      v-if="filterRegistration.length != 0"
-      class="menu-label"
-      style="margin-left: -9px"
-     >
-      Resident Registration</span
-     >
-     <span
-      class="menu-label"
-      style="padding-left: 28px"
-     >
-      Resident Registration</span
-     >
-    </router-link>
-   </a>
-   <a v-if="permission == 'chairperson' || permission == 'secretary'">
-    <router-link :to="{ name: 'Resident_Information' }">
-     <i class="fas fa-user-friends"></i>
-     <span
-      class="menu-label"
-      style="padding-left: 28px"
-      >Resident Information</span
-     >
     </router-link>
    </a>
    <a
@@ -211,6 +179,12 @@
     <router-link :to="{ name: 'Health_Services' }">
      <i class="fa fa-user-nurse"></i>
      <span class="menu-label">Health Services</span>
+    </router-link>
+   </a>
+    <a v-if="permission == 'chairperson' ">
+    <router-link :to="{ name: 'Logs' }">
+     <i class="fas fa-bars"></i>
+     <span class="menu-label">Logs</span>
     </router-link>
    </a>
   </div>

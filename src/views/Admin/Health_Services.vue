@@ -7,7 +7,7 @@
      <select class="form-select" name="fic" id="fic" v-model="selectedData">
       <option value="Environment">Environment</option>
       <option value="Child Information">Child Infomartion</option>
-      <option value="Mother">Mother</option>
+      <option value="Mother">Mother Information</option>
      </select>
     </div>
    </div>
