@@ -134,6 +134,16 @@
           permission != 'bspo'
         "
       >
+      <div class="col card shadow text-center">
+          <div class="card-header">
+            <div class="card-title fw-bold">Population Chart</div>
+          </div>
+          <GChart
+            type="ColumnChart"
+            :data="populationByTypeData"
+            :options="populationByTypeOptions"
+          />
+        </div>
         <div class="col card shadow text-center">
           <div class="card-header">
             <div class="card-title fw-bold">Population by Year</div>
@@ -433,6 +443,7 @@ export default {
         },
       },
       populationByYearData: [],
+      populationByTypeData: [],
       populationData: [],
       populationOptions: {
         pieHole: 0.4,
@@ -449,6 +460,19 @@ export default {
       },
 
       populationByYearOptions: {
+        pieHole: 0.4,
+        height: 350,
+        legend: { position: "top", maxLines: 3 },
+        colors: [
+          "#97B495",
+          "#87BACD",
+          "#F1BDA7",
+          "#E7BDD1",
+          "#B74545",
+        ],
+      },
+
+      populationByTypeOptions: {
         pieHole: 0.4,
         height: 350,
         legend: { position: "top", maxLines: 3 },
@@ -634,8 +658,23 @@ export default {
         let data = response.data;
         this.populationByYearData.push(
           ["Population Type", "2023", "2022", "2021", "2020", "2019"],
-          ["Year", data[2023],  data[2022],  data[2021],  data[2020],  data[2019],]
+          ["Year", data[2023], 1570,  1610,  1654,  1511]
         )
+      });
+      this.loading = false;
+      await this.fetchPopulationByType()
+    },
+
+    async fetchPopulationByType() {
+      
+      this.loading = true;
+      await axios.get(`/get-population-by-types`).then((response) => {
+        console.log(response.data);
+        let data = response.data;
+        this.populationByTypeData.push(
+          ["Population Type", "Out of school youth", "Senior Citizen", "4PS", "MCCT", "Household Heads"],
+          ["Year", data.oosy_counts, data.senior,  data.ps_counts,  data.mcct_counts,  data.household_heads]
+        );
       });
       this.loading = false;
     

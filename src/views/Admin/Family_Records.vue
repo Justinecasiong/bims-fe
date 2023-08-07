@@ -1512,6 +1512,7 @@ export default {
           expected_date: "Expected date must be today or ahead.",
         };
       } else {
+        let status = this.certification_id == 3 ? 'Approved' : "Unpaid Certificates";
         const data = {
           resident_id: this.resident_id,
           certification_id: this.certification_id,
@@ -1520,7 +1521,7 @@ export default {
           expected_date: this.expected_date,
           time: this.expected_time,
           date: this.expected_date,
-          status: "Unpaid Certificates",
+          status: status,
         };
 
         await axios.post("/certification_request", data).then((response) => {
