@@ -717,7 +717,7 @@ export default {
    };
    await axios
     .post("/barangay_officals", data)
-    .then((response) => {
+    .then(() => {
      this.$toast.success("Official Data has been created.");
      this.fetchOfficial();
      this.resetFields();
