@@ -2,7 +2,7 @@
 FROM node:16.3.0-alpine
 
 # make the 'app' folder the current working directory
-WORKDIR /usr/app
+WORKDIR /app
 
 # copy both 'package.json' and 'package-lock.json' (if available)
 COPY package*.json ./
@@ -14,4 +14,4 @@ RUN npm install --legacy-peer-deps
 COPY . .
 
 # serve application in development
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "serve"]

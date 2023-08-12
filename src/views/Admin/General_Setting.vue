@@ -8,15 +8,8 @@
    </div>
   </div>
 
-  <div class="row">
-   <div class="col-3" v-if="permission == 'treasurer'" style="cursor: pointer" v-b-modal.modal-gcash>
-    <div class="card card-round text-white" style="margin-top: 10px; background-color: #459a7d">
-     <card-body>
-      <p>GCASH QR Code</p>
-     </card-body>
-    </div>
-   </div>
-   <div class="col-3" v-if="permission == 'chairperson' || permission == 'admin'" style="cursor: pointer" v-b-modal.view-gcash>
+  <div class="row gap-5">
+   <div class="col-3" v-if="permission == 'chairperson' || permission == 'treasurer'  || permission == 'admin'" style="cursor: pointer" v-b-modal.modal-gcash>
     <div class="card card-round text-white" style="margin-top: 10px; background-color: #459a7d">
      <card-body>
       <p>GCASH QR Code</p>
@@ -57,7 +50,7 @@
      <img :src="image" width="300" />
     </div>
     <div class="text-center mb-3" v-if="gcash.length != 0 && image == null">
-     <img :src="'http://127.0.0.1:8000/qr_code/' + this.gcash[0].image" width="300" />
+     <img :src="'http://127.0.0.0/qr_code/' + this.gcash[0].image" width="300" />
     </div>
 
     <div class="form-group text-center">
@@ -72,7 +65,7 @@
      <img :src="image" width="300" />
     </div>
     <div class="text-center mb-3" v-if="gcash.length != 0 && image == null">
-     <img :src="'http://127.0.0.1:8000/qr_code/' + this.gcash[0].image" width="300" />
+     <img :src="'http://127.0.0.0/qr_code/' + this.gcash[0].image" width="300" />
     </div>
    </div>
   </b-modal>

@@ -93,9 +93,9 @@
                             </h3>
                         </div>
                         <br /><br />
-                        <h4>TO WHOM IT MAY CONCERN:</h4>
+                        <h5>TO WHOM IT MAY CONCERN:</h5>
                         <br />
-                        <h4>
+                        <h5>
                             &nbsp;&nbsp; &nbsp; &nbsp; This is to certify that
                             <b>
                                 {{ this.residents.first_name.toUpperCase() }}
@@ -111,22 +111,22 @@
                             Postal address
                             <b> {{ this.residents.address.toUpperCase() }}</b
                             >.
-                        </h4>
+                        </h5>
                         <br />
-                        <h4>
+                        <h5>
                             &nbsp;&nbsp; &nbsp; &nbsp; THIS CERTIFICATION is
                             hereby issued to the above-named person for whatever
                             legal purpose it may serve him/her best.
-                        </h4>
+                        </h5>
                         <br />
-                        <h4>
+                        <h5>
                             ISSUED this <b>{{ date.toUpperCase() }}</b
                             >. at the Office of the Punong Barangay,
                             <b>STO. NIÑO EXTENSION, BARANGAY 6-A</b>,
                             Philippines
-                        </h4>
+                        </h5>
                         <br /><br /><br />
-                        <h4>NOT VALID WITHOUT SEAL:</h4>
+                        <h5>NOT VALID WITHOUT SEAL:</h5>
 
                         <div class="signee">
                             <div class="row">
@@ -155,10 +155,6 @@
                     </div>
 
                     <div class="footer">
-                        <div class="row">
-                            <div class="col-lg-8"></div>
-                            <div class="col-lg-4 mb-5"></div>
-                        </div>
                         <div class="tax-payer">
                             <h4 style="font-weight: bold">
                                 {{ this.residents.first_name.toUpperCase() }}

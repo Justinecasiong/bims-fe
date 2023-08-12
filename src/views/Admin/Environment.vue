@@ -31,12 +31,12 @@
       <th scope="col">Action</th>
      </tr>
     </thead>
-    <tbody>
+    <tbody v-if="householdEnvs.length > 0">
      <tr v-for="(envs, index) in householdEnvs" :key="index">
       <td>{{ envs.household_head.household_num }}</td>
       <td>{{ envs.household_head.first_name }} {{ envs.household_head.middle_name ? envs.household_head.middle_name : "" }} {{ envs.household_head.last_name }} </td>
       <td>{{ envs.household_head.birthdate }}</td>
-      <td>{{ getAge(envs.household_head.birthdate)()  }}</td>
+      <td>{{ getAge(envs.household_head.birthdate) }}</td>
       <td>{{ envs.household_head.sex }}</td>
       <td>{{ envs.toilet_access }}</td>
       <td>{{ envs.hypertensive_family_no }}</td>
@@ -130,11 +130,12 @@
       this.currentPage = response.data.current_page;
       this.rows = response.data.total;
       this.perPage = response.data.per_page;
+      this.loading = false;
      })
      .catch((error) => {
+      this.loading = false;
       return error.response;
      });
-    this.loading = false;
    },
 
    async updateEnv() {
@@ -154,9 +155,11 @@
      .then(async () => {
       this.$toast.success("Household environment record has been updated.");
       this.closeViewDetails();
+      this.loading = false;
       await this.fetchHouseholdEnv();
      })
      .catch((error) => {
+      this.loading = false;
       this.errors = error.response.data.errors;
      });
    },

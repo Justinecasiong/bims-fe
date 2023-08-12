@@ -184,7 +184,8 @@
             :options="occupationsOptions"
           />
         </div>
-        <div class="col card-header">
+        <b-container v-if="permission != 'bns' && permission != 'bhw' && permission != 'bspo' && permission != 'resident'">
+          <div class="col card-header">
           <div class="row">
             <div class="col-10">
               <div class="card-title fw-bold">Revenue Chart</div>
@@ -215,6 +216,8 @@
             :options="revenueOptions"
           />
         </div>
+        </b-container>
+        
       </div>
       <div class="row card">
         <h6>
@@ -280,9 +283,9 @@
       >
         <div class="row">
           <div class="text-center mb-3">
-            <img
+            <img v-if="this.gcash.length > 0 "
               :src="
-                'http://127.0.0.1:8000/qr_code/' +
+                'http://127.0.0.0/qr_code/' +
                 (this.gcash.length > 0 ? this.gcash[0].image : '')
               "
               width="300"
@@ -657,8 +660,8 @@ export default {
 
         let data = response.data;
         this.populationByYearData.push(
-          ["Population Type", "2023", "2022", "2021", "2020", "2019"],
-          ["Year", data[2023], 1570,  1610,  1654,  1511]
+          ["Population Type", "2019", "2020", "2021", "2022", "2023"],
+          ["Year", 1511, 1654, 1610, 1570, data[2023]]
         )
       });
       this.loading = false;

@@ -461,7 +461,7 @@
       >
         <img
           :src="
-            'http://127.0.0.1:8000/identification/' + this.identification_img
+            'http://127.0.0.0/identification/' + this.identification_img
           "
           height="300"
         />
