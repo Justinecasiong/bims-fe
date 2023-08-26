@@ -60,13 +60,22 @@
               <button class="btn btn-success" @click="printSummon(summon)">
                 Print Summon Letter
               </button>
-              <button class="btn btn-danger" @click="deleteSummon(summon.id)">
-                Delete Record
-              </button>
             </td>
           </tr>
         </tbody>
       </table>
+      <div class="mt-3">
+          <b-pagination
+            v-model="currentPage"
+            prev-text="Prev"
+            next-text="Next"
+            :total-rows="rows"
+            :per-page="perPage"
+            align="center"
+            v-on:input="fetchSummonRecord()"
+            style="align-items: flex-end"
+          ></b-pagination>
+        </div>
     </div>
 
     <b-modal
@@ -282,6 +291,7 @@
       id="modal-print-preview"
       title="Print Preview"
       centered
+      @hidden="resetFields()"
       :hide-footer="true"
     >
       <button class="btn btn-primary" v-print="'#summonLetter'">Print</button>
@@ -581,7 +591,6 @@
       centered
       @ok.prevent="generateCertificate()"
       ok-only
-      @hidden="resetFields()"
       ok-title="Generate"
     >
       <div class="form-group">
@@ -617,6 +626,15 @@ export default {
   data() {
     return {
       summonData: {
+        complainant: "",
+        respondent: "",
+        brgy_case_number: "",
+        is_paid: false,
+        date: "",
+        time: "",
+        remember_token: localStorage.getItem("token"),
+      },
+      tempSummonData: {
         complainant: "",
         respondent: "",
         brgy_case_number: "",
@@ -746,6 +764,8 @@ export default {
         time: data.time,
         remember_token: localStorage.getItem("token"),
       };
+      this.tempSummonData = this.summonData;
+      console.log(this.summonData);
       data.is_paid ? this.printLetter() : this.certPayment();
     },
 
@@ -804,11 +824,11 @@ export default {
       };
 
       axios.post("/revenue", data).then(() => {
-        this.$toast.success("Summon Letter payment has been successful.");
-        this.summonData.is_paid = true;
-        this.updateSummonRecord();
         this.$bvModal.hide("modal-letter-payment");
-        this.printLetter();
+        this.$toast.success("Summon Letter payment has been successful.");
+        this.tempSummonData.is_paid = true;
+        this.updateSummonRecord();
+        this.printSummon(this.tempSummonData);
       });
     },
 

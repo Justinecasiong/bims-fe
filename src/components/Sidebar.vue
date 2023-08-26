@@ -116,9 +116,9 @@
     style="margin-left: 4px"
     v-if="permission == 'treasurer' || permission == 'chairperson' || permission == 'secretary' || permission == 'kagawad'"
    >
-    <router-link :to="{ name: 'Revenues' }">
+    <router-link :to="{ name: 'Transactions' }">
      <i class="fas fa-dollar-sign"></i>
-     <span class="menu-label">Revenues</span>
+     <span class="menu-label">Transactions</span>
     </router-link>
    </a>
    <a

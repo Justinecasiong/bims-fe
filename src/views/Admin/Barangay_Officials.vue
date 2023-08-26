@@ -60,14 +60,7 @@
       <th
        scope="col"
        v-if="
-        permission == 'admin' ||
-        permission == 'secretary' ||
-        permission == 'treasurer' ||
-        permission == 'kagawad' ||
-        permission == 'bspo' ||
-        permission == 'bns' ||
-        permission == 'bhw' ||
-        permission == 'chairperson'
+        permission == 'admin'
        "
       >
        Action
@@ -103,14 +96,7 @@
       <td>{{ official.status }}</td>
       <td
        v-if="
-        permission == 'admin' ||
-        permission == 'secretary' ||
-        permission == 'treasurer' ||
-        permission == 'kagawad' ||
-        permission == 'bspo' ||
-        permission == 'bns' ||
-        permission == 'bhw' ||
-        permission == 'chairperson'
+        permission == 'admin' 
        "
       >
        <button

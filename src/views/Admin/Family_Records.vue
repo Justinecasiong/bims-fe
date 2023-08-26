@@ -98,7 +98,9 @@
               <button
                 v-if="permission == 'chairperson' || permission == 'secretary'"
                 class="btn btn-secondary mb-2"
-                @click="openConfirmationModal(household, household.household_head_id)"
+                @click="
+                  openConfirmationModal(household, household.household_head_id)
+                "
               >
                 <i class="fas fa-user"></i>
               </button>
@@ -224,7 +226,12 @@
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="gender" class="control-label"> Sex: </label>
-                <select  class="form-control" id="gender" placeholder="Enter Sex" v-model="householdDetails.sex" >
+                <select
+                  class="form-control"
+                  id="gender"
+                  placeholder="Enter Sex"
+                  v-model="householdDetails.sex"
+                >
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
                 </select>
@@ -280,9 +287,6 @@
                 </div>
               </div>
             </div>
-            
-          </div>
-          <div class="row">
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="relationship" class="control-label">
@@ -302,6 +306,29 @@
                 <div v-if="this.errors.relationship">
                   <label style="color: red; font-weight: 500">{{
                     this.errors.relationship[0]
+                  }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="oosy" class="control-label">
+                  Out of School Youth:
+                </label>
+                <select
+                  class="form-select"
+                  name="oosy"
+                  id="oosy"
+                  v-model="householdDetails.oosy"
+                >
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+                <div v-if="this.errors.oosy">
+                  <label style="color: red; font-weight: 500">{{
+                    this.errors.oosy[0]
                   }}</label>
                 </div>
               </div>
@@ -368,6 +395,8 @@
                   <option value="Helper">Helper</option>
                   <option value="Vendor">Vendor</option>
                   <option value="Self-Employed">Self-Employed</option>
+                  <option value="Student">Student</option>
+                  <option value="None">None</option>
                 </select>
                 <div v-if="this.errors.occupation">
                   <label style="color: red; font-weight: 500">{{
@@ -397,6 +426,7 @@
                   <option value="Pills">Pills</option>
                   <option value="Injectable">Injectable</option>
                   <option value="NFP">NFP</option>
+                  <option value="None">None</option>
                 </select>
                 <div v-if="this.errors.fp_method">
                   <label style="color: red; font-weight: 500">{{
@@ -451,64 +481,45 @@
           <div class="row">
             <div class="col-sm-4">
               <div class="form-group">
-                <label for="oosy" class="control-label">
-                  Out of School Youth:
-                </label>
-                <select
-                  class="form-select"
-                  name="oosy"
-                  id="oosy"
-                  v-model="householdDetails.oosy"
-                >
-                  <option value="Yes">Yes</option>
-                  <option value="No">No</option>
-                </select>
-                <div v-if="this.errors.oosy">
-                  <label style="color: red; font-weight: 500">{{
-                    this.errors.oosy[0]
-                  }}</label>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-4">
-              <div class="form-group">
                 <label for="residency" class="control-label">
                   How long of Residency:
                 </label>
-                <br>
-                <small>
-                  Year Started
-                </small>
+                <br />
+                <small> Year Started </small>
                 <select
                   class="form-control"
                   id="residency"
                   v-model="householdDetails.residency"
                 >
-                  <option 
-                  v-for="(year, index) in years"
+                  <option
+                    v-for="(year, index) in years"
                     :key="index"
                     :value="year"
-                  >{{ year }}</option>
+                  >
+                    {{ year }}
+                  </option>
                 </select>
                 <div v-if="this.errors.residency">
                   <label style="color: red; font-weight: 500">{{
                     this.errors.residency[0]
                   }}</label>
                 </div>
-                <small>
-                  Year Ended
-                </small>
+                <small> Year Ended </small>
                 <select
                   class="form-control"
                   id="residency_end"
                   v-model="householdDetails.residency_end"
                 >
-                  <option v-bind:value="null">Present (Currently a resident)</option>
-                  <option 
-                  v-for="(year, index) in years"
+                  <option v-bind:value="null">
+                    Present (Currently a resident)
+                  </option>
+                  <option
+                    v-for="(year, index) in years"
                     :key="index"
                     :value="year"
-                  >{{ year }}</option>
+                  >
+                    {{ year }}
+                  </option>
                 </select>
                 <div v-if="this.errors.residency_end">
                   <label style="color: red; font-weight: 500">{{
@@ -537,32 +548,28 @@
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-sm-4">
-                <div class="form-group">
-                  <label for="first-name" class="control-label"> Zone: </label>
-                  <select
-                    class="form-select"
-                    name="zone"
-                    id="zone"
-                    v-model="householdDetails.zone_id"
-                  >
-                    <option
-                      v-for="zone in zones"
-                      :key="zone.id"
-                      :value="zone.id"
-                    >
-                      {{ zone.zone_description }}
-                    </option>
-                  </select>
-                  <div v-if="this.errors.zone_id">
-                    <label style="color: red; font-weight: 500">{{
-                      this.errors.zone_id[0]
-                    }}</label>
-                  </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="first-name" class="control-label"> Zone: </label>
+                <select
+                  class="form-select"
+                  name="zone"
+                  id="zone"
+                  v-model="householdDetails.zone_id"
+                >
+                  <option v-for="zone in zones" :key="zone.id" :value="zone.id">
+                    {{ zone.zone_description }}
+                  </option>
+                </select>
+                <div v-if="this.errors.zone_id">
+                  <label style="color: red; font-weight: 500">{{
+                    this.errors.zone_id[0]
+                  }}</label>
                 </div>
               </div>
-              <div class="col-sm-8">
+            </div>
+            <div class="row">
+              <div class="col">
                 <div class="form-group">
                   <label for="remarks" class="control-label"> Remarks: </label>
                   <input
@@ -774,8 +781,6 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row">
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="relationship" class="control-label">
@@ -795,6 +800,29 @@
                 <div v-if="this.errors.relationship">
                   <label style="color: red; font-weight: 500">{{
                     this.errors.relationship[0]
+                  }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="oosy" class="control-label">
+                  Out of School Youth:
+                </label>
+                <select
+                  class="form-select"
+                  name="oosy"
+                  id="oosy"
+                  v-model="familyMember.oosy"
+                >
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+                <div v-if="this.errors.oosy">
+                  <label style="color: red; font-weight: 500">{{
+                    this.errors.oosy[0]
                   }}</label>
                 </div>
               </div>
@@ -861,6 +889,8 @@
                   <option value="Helper">Helper</option>
                   <option value="Vendor">Vendor</option>
                   <option value="Self-Employed">Self-Employed</option>
+                  <option value="Student">Student</option>
+                  <option value="None">None</option>
                 </select>
                 <div v-if="this.errors.occupation">
                   <label style="color: red; font-weight: 500">{{
@@ -890,6 +920,7 @@
                   <option value="Pills">Pills</option>
                   <option value="Injectable">Injectable</option>
                   <option value="NFP">NFP</option>
+                  <option value="None">None</option>
                 </select>
                 <div v-if="this.errors.fp_method">
                   <label style="color: red; font-weight: 500">{{
@@ -944,64 +975,45 @@
           <div class="row">
             <div class="col-sm-4">
               <div class="form-group">
-                <label for="oosy" class="control-label">
-                  Out of School Youth:
-                </label>
-                <select
-                  class="form-select"
-                  name="oosy"
-                  id="oosy"
-                  v-model="familyMember.oosy"
-                >
-                  <option value="Yes">Yes</option>
-                  <option value="No">No</option>
-                </select>
-                <div v-if="this.errors.oosy">
-                  <label style="color: red; font-weight: 500">{{
-                    this.errors.oosy[0]
-                  }}</label>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-4">
-              <div class="form-group">
                 <label for="residency" class="control-label">
                   How long of Residency:
                 </label>
-                <br>
-                <small>
-                  Year Started
-                </small>
+                <br />
+                <small> Year Started </small>
                 <select
                   class="form-control"
                   id="residency"
                   v-model="familyMember.residency"
                 >
-                  <option 
-                  v-for="(year, index) in years"
+                  <option
+                    v-for="(year, index) in years"
                     :key="index"
                     :value="year"
-                  >{{ year }}</option>
+                  >
+                    {{ year }}
+                  </option>
                 </select>
                 <div v-if="this.errors.residency">
                   <label style="color: red; font-weight: 500">{{
                     this.errors.residency[0]
                   }}</label>
                 </div>
-                <small>
-                  Year Ended
-                </small>
+                <small> Year Ended </small>
                 <select
                   class="form-control"
                   id="residency_end"
                   v-model="familyMember.residency_end"
                 >
-                  <option v-bind:value="null">Present (Currently a resident)</option>
-                  <option 
-                  v-for="(year, index) in years"
+                  <option v-bind:value="null">
+                    Present (Currently a resident)
+                  </option>
+                  <option
+                    v-for="(year, index) in years"
                     :key="index"
                     :value="year"
-                  >{{ year }}</option>
+                  >
+                    {{ year }}
+                  </option>
                 </select>
                 <div v-if="this.errors.residency_end">
                   <label style="color: red; font-weight: 500">{{
@@ -1029,9 +1041,9 @@
                   }}</label>
                 </div>
               </div>
+             
             </div>
-            <div class="row">
-              <div class="col-sm-4">
+            <div class="col-sm-4">
                 <div class="form-group">
                   <label for="first-name" class="control-label"> Zone: </label>
                   <select
@@ -1055,25 +1067,27 @@
                   </div>
                 </div>
               </div>
-              <div class="col-sm-8">
+          </div>
+
+            <div class="row">
+                <div class="col">
                 <div class="form-group">
-                  <label for="remarks" class="control-label"> Remarks: </label>
-                  <input
+                    <label for="remarks" class="control-label"> Remarks: </label>
+                    <input
                     type="text"
                     class="form-control"
                     id="remarks"
                     placeholder="Enter here"
                     v-model="familyMember.remarks"
-                  />
-                  <div v-if="this.errors.remarks">
+                    />
+                    <div v-if="this.errors.remarks">
                     <label style="color: red; font-weight: 500">{{
-                      this.errors.remarks[0]
+                        this.errors.remarks[0]
                     }}</label>
-                  </div>
+                    </div>
                 </div>
-              </div>
+                </div>
             </div>
-          </div>
         </div>
         <div
           class="mt-4 d-flex justify-content-end"
@@ -1233,7 +1247,6 @@ import moment from "moment";
 export default {
   data() {
     return {
-      
       business_name: null,
       business_owner: null,
       business_nature: null,
@@ -1241,18 +1254,18 @@ export default {
       householdDetails: {},
       certifications: [],
       resident_id: null,
-      years:[],
+      years: [],
       certification_id: null,
       purpose: null,
       status: null,
       time: null,
-      isMember:null,
+      isMember: null,
       motherForeignId: null,
       date: null,
       expected_time: null,
       expected_date: null,
       familyMember: {
-        id:null,
+        id: null,
         resident_id: null,
         household_head_id: null,
         zone_id: 1,
@@ -1312,14 +1325,11 @@ export default {
     },
     async fetchHouseholdHeads() {
       await axios
-        .get(
-          `/all-household-heads?search=${this.search}`
-        )
+        .get(`/all-household-heads?search=${this.search}`)
         .then((response) => {
           response.data.forEach((element) => {
             this.allFamilyRecords.push(element);
           });
-          
         })
         .catch((error) => {
           return error.response;
@@ -1329,9 +1339,7 @@ export default {
 
     async fetchHouseholdMembers() {
       await axios
-        .get(
-          `/all-household-members?search=${this.search}`
-        )
+        .get(`/all-household-members?search=${this.search}`)
         .then((response) => {
           response.data.forEach((element) => {
             this.allFamilyRecords.push(element);
@@ -1355,11 +1363,9 @@ export default {
 
     createRequest(data, isMember) {
       this.resident_id = data.resident_id;
-      data.resident_id 
+      data.resident_id
         ? this.$bvModal.show("modal-create-request")
-        : this.retrieveResidentId(data.id, isMember)
-      
-      
+        : this.retrieveResidentId(data.id, isMember);
     },
 
     openConfirmationModal(data, isMember) {
@@ -1369,27 +1375,27 @@ export default {
     },
 
     addAsMother() {
-      let data  = {
+      let data = {
         id: this.motherForeignId,
-        is_head: this.isMember ? null : 1
-      }
+        is_head: this.isMember ? null : 1,
+      };
 
       axios.post("/add-household-member-mother", data).then(() => {
-          this.$toast.success("Member added as mother successful");
-          this.$bvModal.hide("modal-confirmation");
-        });
+        this.$toast.success("Member added as mother successful");
+        this.$bvModal.hide("modal-confirmation");
+      });
     },
 
     retrieveResidentId(id, isMember) {
-      let data  = {
+      let data = {
         id: id,
-        is_head: isMember ? null : 1
-      }
+        is_head: isMember ? null : 1,
+      };
 
       axios.post("/get-resident-id-from-member", data).then((response) => {
-          this.resident_id = response.data.resident_id;
-          this.$bvModal.show("modal-create-request");
-        });
+        this.resident_id = response.data.resident_id;
+        this.$bvModal.show("modal-create-request");
+      });
     },
 
     closeViewDetails() {
@@ -1476,9 +1482,9 @@ export default {
       await axios
         .put(`/update-household-head-record/${data.id}`, data)
         .then(async () => {
-        this.$bvModal.hide("modal-view");
-        this.allFamilyRecords = [];
-        this.loading = false;
+          this.$bvModal.hide("modal-view");
+          this.allFamilyRecords = [];
+          this.loading = false;
           await this.fetchHouseholdHeads();
           this.$toast.success("Record has been updated.");
         })
@@ -1488,8 +1494,8 @@ export default {
         });
     },
     getAge(birthdate) {
-      let age = moment().diff(birthdate, 'years');
-      return age >= 1 ? age : 0
+      let age = moment().diff(birthdate, "years");
+      return age >= 1 ? age : 0;
     },
     async searchRecord() {
       this.loading = true;
@@ -1512,7 +1518,8 @@ export default {
           expected_date: "Expected date must be today or ahead.",
         };
       } else {
-        let status = this.certification_id == 3 ? 'Approved' : "Unpaid Certificates";
+        let status =
+          this.certification_id == 3 ? "Approved" : "Unpaid Certificates";
         const data = {
           resident_id: this.resident_id,
           certification_id: this.certification_id,
@@ -1542,7 +1549,7 @@ export default {
       }
     },
 
-    resetFields(){
+    resetFields() {
       this.business_name = null;
       this.business_owner = null;
       this.business_nature = null;
@@ -1555,15 +1562,15 @@ export default {
       this.expected_time = null;
       this.expected_date = null;
       this.isMember = null;
-      this.motherForeignId =null;
+      this.motherForeignId = null;
     },
-    generateYears(){
-      var currentYear =  (new Date()).getFullYear();
+    generateYears() {
+      var currentYear = new Date().getFullYear();
       this.years = [];
-      for(var i = currentYear; i > (currentYear - 100); i--){
+      for (var i = currentYear; i > currentYear - 100; i--) {
         this.years.push(i);
       }
-    }
+    },
   },
 
   async mounted() {

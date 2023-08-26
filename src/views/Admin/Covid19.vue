@@ -38,7 +38,7 @@
                         <th scope="col">No. of Dose</th>
                         <th scope="col">Type of Booster</th>
                         <th scope="col">Reason</th>
-                        <th scope="col">Action</th>
+                        <th scope="col" v-if="permission == 'resident'">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -52,7 +52,7 @@
                         <td>{{ covid.dose_num }}</td>
                         <td>{{ covid.booster_type }}</td>
                         <td>{{ covid.reason }}</td>
-                        <td>
+                        <td v-if="permission == 'resident'">
                             <button
                                 class="btn btn-primary"
                                 v-b-modal.modal-edit

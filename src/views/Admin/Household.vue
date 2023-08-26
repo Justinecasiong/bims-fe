@@ -262,8 +262,6 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row">
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="relationship" class="control-label">
@@ -283,6 +281,29 @@
                 <div v-if="this.errors.relationship">
                   <label style="color: red; font-weight: 500">{{
                     this.errors.relationship[0]
+                  }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="oosy" class="control-label">
+                  Out of School Youth:
+                </label>
+                <select
+                  class="form-select"
+                  name="oosy"
+                  id="oosy"
+                  v-model="oosy"
+                >
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+                <div v-if="this.errors.oosy">
+                  <label style="color: red; font-weight: 500">{{
+                    this.errors.oosy[0]
                   }}</label>
                 </div>
               </div>
@@ -349,6 +370,8 @@
                   <option value="Helper">Helper</option>
                   <option value="Vendor">Vendor</option>
                   <option value="Self-Employed">Self-Employed</option>
+                  <option value="Student">Student</option>
+                  <option value="None">None</option>
                 </select>
                 <div v-if="this.errors.occupation">
                   <label style="color: red; font-weight: 500">{{
@@ -378,6 +401,7 @@
                   <option value="Pills">Pills</option>
                   <option value="Injectable">Injectable</option>
                   <option value="NFP">NFP</option>
+                  <option value="None">None</option>
                 </select>
                 <div v-if="this.errors.fp_method">
                   <label style="color: red; font-weight: 500">{{
@@ -430,27 +454,6 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-4">
-              <div class="form-group">
-                <label for="oosy" class="control-label">
-                  Out of School Youth:
-                </label>
-                <select
-                  class="form-select"
-                  name="oosy"
-                  id="oosy"
-                  v-model="oosy"
-                >
-                  <option value="Yes">Yes</option>
-                  <option value="No">No</option>
-                </select>
-                <div v-if="this.errors.oosy">
-                  <label style="color: red; font-weight: 500">{{
-                    this.errors.oosy[0]
-                  }}</label>
-                </div>
-              </div>
-            </div>
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="residency" class="control-label">
@@ -518,8 +521,7 @@
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-sm-4">
+            <div class="col-sm-4">
                 <div class="form-group">
                   <label for="first-name" class="control-label"> Zone: </label>
                   <select
@@ -543,21 +545,22 @@
                   </div>
                 </div>
               </div>
-              <div class="col-sm-8">
-                <div class="form-group">
-                  <label for="remarks" class="control-label"> Remarks: </label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="remarks"
-                    placeholder="Enter here"
-                    v-model="remarks"
-                  />
-                  <div v-if="this.errors.remarks">
-                    <label style="color: red; font-weight: 500">{{
-                      this.errors.remarks[0]
-                    }}</label>
-                  </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label for="remarks" class="control-label"> Remarks: </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="remarks"
+                  placeholder="Enter here"
+                  v-model="remarks"
+                />
+                <div v-if="this.errors.remarks">
+                  <label style="color: red; font-weight: 500">{{
+                    this.errors.remarks[0]
+                  }}</label>
                 </div>
               </div>
             </div>
@@ -679,8 +682,6 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row">
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="middle-name" class="control-label">
@@ -701,6 +702,8 @@
                 </div>
               </div>
             </div>
+          </div>
+          <div class="row">
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="last-name" class="control-label">
@@ -740,8 +743,6 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row">
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="birthdate" class="control-label">
@@ -758,29 +759,6 @@
                 <div v-if="this.errors.birthdate">
                   <label style="color: red; font-weight: 500">{{
                     this.errors.birthdate[0]
-                  }}</label>
-                </div>
-              </div>
-            </div>
-            <div class="col-sm-4">
-              <div class="form-group">
-                <label for="civil-status" class="control-label">
-                  Civil Status:
-                </label>
-                <select
-                  class="form-select"
-                  name="civil-status"
-                  id="civil_status"
-                  v-model="familyMember.civil_status"
-                >
-                  <option value="Single">Single</option>
-                  <option value="Married">Married</option>
-                  <option value="Divorced">Divorced</option>
-                  <option value="Widowed">Widowed</option>
-                </select>
-                <div v-if="this.errors.civil_status">
-                  <label style="color: red; font-weight: 500">{{
-                    this.errors.civil_status[0]
                   }}</label>
                 </div>
               </div>
@@ -844,38 +822,23 @@
             </div>
             <div class="col-sm-4">
               <div class="form-group">
-                <label for="occupation" class="control-label">
-                  Occupation:
+                <label for="civil-status" class="control-label">
+                  Civil Status:
                 </label>
                 <select
                   class="form-select"
-                  name="occupation"
-                  id="occupation"
-                  v-model="familyMember.occupation"
+                  name="civil-status"
+                  id="civil_status"
+                  v-model="familyMember.civil_status"
                 >
-                  <option value="Government Employee">
-                    Government Employee
-                  </option>
-                  <option value="Private Employee">Private Employee</option>
-                  <option value="Barangay Employee">Barangay Employee</option>
-                  <option value="Barangay Volunteers">
-                    Barangay Volunteers
-                  </option>
-                  <option value="OFW">OFW</option>
-                  <option value="Business">Business</option>
-                  <option value="Carpenter">Carpenter</option>
-                  <option value="Laborer/Construction">
-                    Laborer/Construction
-                  </option>
-                  <option value="Driver">Driver</option>
-                  <option value="Sari-sari Store">Sari-sari Store</option>
-                  <option value="Helper">Helper</option>
-                  <option value="Vendor">Vendor</option>
-                  <option value="Self-Employed">Self-Employed</option>
+                  <option value="Single">Single</option>
+                  <option value="Married">Married</option>
+                  <option value="Divorced">Divorced</option>
+                  <option value="Widowed">Widowed</option>
                 </select>
-                <div v-if="this.errors.occupation">
+                <div v-if="this.errors.civil_status">
                   <label style="color: red; font-weight: 500">{{
-                    this.errors.occupation[0]
+                    this.errors.civil_status[0]
                   }}</label>
                 </div>
               </div>
@@ -901,6 +864,7 @@
                   <option value="Pills">Pills</option>
                   <option value="Injectable">Injectable</option>
                   <option value="NFP">NFP</option>
+                  <option value="None">None</option>
                 </select>
                 <div v-if="this.errors.fp_method">
                   <label style="color: red; font-weight: 500">{{
@@ -932,6 +896,49 @@
             </div>
             <div class="col-sm-4">
               <div class="form-group">
+                <label for="occupation" class="control-label">
+                  Occupation:
+                </label>
+                <select
+                  class="form-select"
+                  name="occupation"
+                  id="occupation"
+                  v-model="familyMember.occupation"
+                >
+                  <option value="Government Employee">
+                    Government Employee
+                  </option>
+                  <option value="Private Employee">Private Employee</option>
+                  <option value="Barangay Employee">Barangay Employee</option>
+                  <option value="Barangay Volunteers">
+                    Barangay Volunteers
+                  </option>
+                  <option value="OFW">OFW</option>
+                  <option value="Business">Business</option>
+                  <option value="Carpenter">Carpenter</option>
+                  <option value="Laborer/Construction">
+                    Laborer/Construction
+                  </option>
+                  <option value="Driver">Driver</option>
+                  <option value="Sari-sari Store">Sari-sari Store</option>
+                  <option value="Helper">Helper</option>
+                  <option value="Vendor">Vendor</option>
+                  <option value="Self-Employed">Self-Employed</option>
+                  <option value="Student">Student</option>
+                  <option value="None">None</option>
+                </select>
+                <div v-if="this.errors.occupation">
+                  <label style="color: red; font-weight: 500">{{
+                    this.errors.occupation[0]
+                  }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            
+            <div class="col-sm-4">
+              <div class="form-group">
                 <label for="senior-citizen" class="control-label">
                   Senior Citizen:
                 </label>
@@ -951,8 +958,6 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row">
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="oosy" class="control-label">
@@ -974,6 +979,33 @@
                 </div>
               </div>
             </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                  <label for="first-name" class="control-label"> Zone: </label>
+                  <select
+                    class="form-select"
+                    name="zone"
+                    id="zone"
+                    v-model="familyMember.zone_id"
+                  >
+                    <option
+                      v-for="zone in zones"
+                      :key="zone.id"
+                      :value="zone.id"
+                    >
+                      {{ zone.zone_description }}
+                    </option>
+                  </select>
+                  <div v-if="this.errors.zone_id">
+                    <label style="color: red; font-weight: 500">{{
+                      this.errors.zone_id[0]
+                    }}</label>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div class="row">
+            
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="residency" class="control-label">
@@ -1041,46 +1073,20 @@
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-sm-4">
-                <div class="form-group">
-                  <label for="first-name" class="control-label"> Zone: </label>
-                  <select
-                    class="form-select"
-                    name="zone"
-                    id="zone"
-                    v-model="familyMember.zone_id"
-                  >
-                    <option
-                      v-for="zone in zones"
-                      :key="zone.id"
-                      :value="zone.id"
-                    >
-                      {{ zone.zone_description }}
-                    </option>
-                  </select>
-                  <div v-if="this.errors.zone_id">
-                    <label style="color: red; font-weight: 500">{{
-                      this.errors.zone_id[0]
-                    }}</label>
-                  </div>
-                </div>
-              </div>
-              <div class="col-sm-8">
-                <div class="form-group">
-                  <label for="remarks" class="control-label"> Remarks: </label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="remarks"
-                    placeholder="Enter here"
-                    v-model="familyMember.remarks"
-                  />
-                  <div v-if="this.errors.remarks">
-                    <label style="color: red; font-weight: 500">{{
-                      this.errors.remarks[0]
-                    }}</label>
-                  </div>
+            <div class="col-4">
+              <div class="form-group">
+                <label for="remarks" class="control-label"> Remarks: </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="remarks"
+                  placeholder="Enter here"
+                  v-model="familyMember.remarks"
+                />
+                <div v-if="this.errors.remarks">
+                  <label style="color: red; font-weight: 500">{{
+                    this.errors.remarks[0]
+                  }}</label>
                 </div>
               </div>
             </div>
@@ -1276,8 +1282,6 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row">
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="relationship" class="control-label">
@@ -1297,6 +1301,29 @@
                 <div v-if="this.errors.relationship">
                   <label style="color: red; font-weight: 500">{{
                     this.errors.relationship[0]
+                  }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="oosy" class="control-label">
+                  Out of School Youth:
+                </label>
+                <select
+                  class="form-select"
+                  name="oosy"
+                  id="oosy"
+                  v-model="householdDetails.oosy"
+                >
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+                <div v-if="this.errors.oosy">
+                  <label style="color: red; font-weight: 500">{{
+                    this.errors.oosy[0]
                   }}</label>
                 </div>
               </div>
@@ -1363,6 +1390,8 @@
                   <option value="Helper">Helper</option>
                   <option value="Vendor">Vendor</option>
                   <option value="Self-Employed">Self-Employed</option>
+                  <option value="Student">Student</option>
+                  <option value="None">None</option>
                 </select>
                 <div v-if="this.errors.occupation">
                   <label style="color: red; font-weight: 500">{{
@@ -1392,6 +1421,7 @@
                   <option value="Pills">Pills</option>
                   <option value="Injectable">Injectable</option>
                   <option value="NFP">NFP</option>
+                  <option value="None">None</option>
                 </select>
                 <div v-if="this.errors.fp_method">
                   <label style="color: red; font-weight: 500">{{
@@ -1444,27 +1474,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-4">
-              <div class="form-group">
-                <label for="oosy" class="control-label">
-                  Out of School Youth:
-                </label>
-                <select
-                  class="form-select"
-                  name="oosy"
-                  id="oosy"
-                  v-model="householdDetails.oosy"
-                >
-                  <option value="Yes">Yes</option>
-                  <option value="No">No</option>
-                </select>
-                <div v-if="this.errors.oosy">
-                  <label style="color: red; font-weight: 500">{{
-                    this.errors.oosy[0]
-                  }}</label>
-                </div>
-              </div>
-            </div>
+            
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="residency" class="control-label">
@@ -1532,8 +1542,7 @@
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-sm-4">
+            <div class="col-sm-4">
                 <div class="form-group">
                   <label for="first-name" class="control-label"> Zone: </label>
                   <select
@@ -1557,7 +1566,9 @@
                   </div>
                 </div>
               </div>
-              <div class="col-sm-8">
+            </div>
+            <div class="row">
+              <div class="col">
                 <div class="form-group">
                   <label for="remarks" class="control-label"> Remarks: </label>
                   <input
@@ -1575,7 +1586,6 @@
                 </div>
               </div>
             </div>
-          </div>
         </div>
         <div
           class="mt-4 d-flex justify-content-end"
@@ -1768,8 +1778,6 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row">
             <div class="col-sm-4">
               <div class="form-group">
                 <label for="relationship" class="control-label">
@@ -1789,6 +1797,29 @@
                 <div v-if="this.errors.relationship">
                   <label style="color: red; font-weight: 500">{{
                     this.errors.relationship[0]
+                  }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="oosy" class="control-label">
+                  Out of School Youth:
+                </label>
+                <select
+                  class="form-select"
+                  name="oosy"
+                  id="oosy"
+                  v-model="familyMember.oosy"
+                >
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+                <div v-if="this.errors.oosy">
+                  <label style="color: red; font-weight: 500">{{
+                    this.errors.oosy[0]
                   }}</label>
                 </div>
               </div>
@@ -1855,6 +1886,8 @@
                   <option value="Helper">Helper</option>
                   <option value="Vendor">Vendor</option>
                   <option value="Self-Employed">Self-Employed</option>
+                  <option value="Student">Student</option>
+                  <option value="None">None</option>
                 </select>
                 <div v-if="this.errors.occupation">
                   <label style="color: red; font-weight: 500">{{
@@ -1884,6 +1917,7 @@
                   <option value="Pills">Pills</option>
                   <option value="Injectable">Injectable</option>
                   <option value="NFP">NFP</option>
+                  <option value="None">None</option>
                 </select>
                 <div v-if="this.errors.fp_method">
                   <label style="color: red; font-weight: 500">{{
@@ -1936,27 +1970,6 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-4">
-              <div class="form-group">
-                <label for="oosy" class="control-label">
-                  Out of School Youth:
-                </label>
-                <select
-                  class="form-select"
-                  name="oosy"
-                  id="oosy"
-                  v-model="familyMember.oosy"
-                >
-                  <option value="Yes">Yes</option>
-                  <option value="No">No</option>
-                </select>
-                <div v-if="this.errors.oosy">
-                  <label style="color: red; font-weight: 500">{{
-                    this.errors.oosy[0]
-                  }}</label>
-                </div>
-              </div>
-            </div>
             <div class="col-sm-4">
               <div class="form-group">
                 <label class="control-label mb-1">
@@ -2024,8 +2037,7 @@
                 </div>
               </div>
             </div>
-            <div class="row">
-              <div class="col-sm-4">
+            <div class="col-sm-4">
                 <div class="form-group">
                   <label for="first-name" class="control-label"> Zone: </label>
                   <select
@@ -2049,7 +2061,11 @@
                   </div>
                 </div>
               </div>
-              <div class="col-sm-8">
+          </div>
+
+            <div class="row">
+              
+              <div class="col">
                 <div class="form-group">
                   <label for="remarks" class="control-label"> Remarks: </label>
                   <input
@@ -2067,7 +2083,6 @@
                 </div>
               </div>
             </div>
-          </div>
         </div>
         <div
           class="mt-4 d-flex justify-content-end"

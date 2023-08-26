@@ -33,7 +33,7 @@
       <td> {{ bs.business_owner }} </td>
       <td v-if="permission == 'bspo'">
        <button class="btn btn-primary mb-2" @click="viewDetails(bs)">Update Details</button>
-       <button class="btn btn-danger" @click="deleteBusiness(bs.id)">Delete Record</button>
+       <button class="btn btn-danger  mb-2" @click="deleteBusiness(bs.id)">Delete Record</button>
       </td>
      </tr>
     </tbody>

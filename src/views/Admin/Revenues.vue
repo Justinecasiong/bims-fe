@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="page-header">
-      <h1>Revenue Information</h1>
+      <h1>Ledger</h1>
       <div class="row">
         <div class="dropdown col-lg-4 col-md-5">
           <div class="form-group mb-3">

@@ -212,8 +212,8 @@ const routes = [
     component: UserManagement,
    },
    {
-    path: "/revenues",
-    name: "Revenues",
+    path: "/transactions",
+    name: "Transactions",
     component: Revenues,
    },
    {

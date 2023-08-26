@@ -96,35 +96,6 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-7 card shadow text-center">
-          <div class="card-header">
-            <div class="card-title fw-bold">Covid-19 Status Chart</div>
-          </div>
-          <GChart
-            type="ColumnChart"
-            :data="covidData"
-            :options="covidOptions"
-            :events="chartEvents"
-            ref="gChart"
-          />
-        </div>
-        <div class="col card shadow text-center">
-          <div class="card-header">
-            <div class="card-title fw-bold">Population</div>
-          </div>
-          <GChart
-            type="PieChart"
-            :data="populationData"
-            :options="populationOptions"
-          />
-          <div class="card-footer" style="font-size: 20px">
-            Total Population: {{ totalPopulation }}
-          </div>
-        </div>
-
-        
-      </div>
       <div
         class="row card shadow-lg text-center"
         v-if="
@@ -188,7 +159,7 @@
           <div class="col card-header">
           <div class="row">
             <div class="col-10">
-              <div class="card-title fw-bold">Revenue Chart</div>
+              <div class="card-title fw-bold">Transactions</div>
             </div>
             <div class="col">
               <select
@@ -217,6 +188,18 @@
           />
         </div>
         </b-container>
+        <div class="col card shadow text-center">
+          <div class="card-header">
+            <div class="card-title fw-bold">Covid-19 Status Chart</div>
+          </div>
+          <GChart
+            type="ColumnChart"
+            :data="covidData"
+            :options="covidOptions"
+            :events="chartEvents"
+            ref="gChart"
+          />
+        </div>
         
       </div>
       <div class="row card">
@@ -447,20 +430,6 @@ export default {
       },
       populationByYearData: [],
       populationByTypeData: [],
-      populationData: [],
-      populationOptions: {
-        pieHole: 0.4,
-        height: 350,
-        legend: { position: "top", maxLines: 3 },
-        colors: [
-          "#97B495",
-          "#87BACD",
-          "#F1BDA7",
-          "#E7BDD1",
-          "#B74545",
-          "#FDDFD7",
-        ],
-      },
 
       populationByYearOptions: {
         pieHole: 0.4,
@@ -480,6 +449,8 @@ export default {
         height: 350,
         legend: { position: "top", maxLines: 3 },
         colors: [
+          "#0000FF",
+          "#FFC0CB",
           "#97B495",
           "#87BACD",
           "#F1BDA7",
@@ -505,6 +476,8 @@ export default {
           9: { color: "#87DACD" },
           10: { color: "#EDBDD1" },
           11: { color: "#FEDFD7" },
+          12: { color: "#87AAC1" },
+          13: { color: "#97B495" },
         },
       },
 
@@ -633,6 +606,8 @@ export default {
           "Sari-sari Store",
           "Helper",
           "Self-Employed",
+          "Student",
+          "None"
         ],[
           "2023",
           data.government_employee, 
@@ -647,6 +622,8 @@ export default {
           data.sari_sari_store,
           data.helper,
           data.self_employed,
+          data.student,
+          data.none,
         ]);
       });
       this.loading = false;
@@ -675,8 +652,8 @@ export default {
         console.log(response.data);
         let data = response.data;
         this.populationByTypeData.push(
-          ["Population Type", "Out of school youth", "Senior Citizen", "4PS", "MCCT", "Household Heads"],
-          ["Year", data.oosy_counts, data.senior,  data.ps_counts,  data.mcct_counts,  data.household_heads]
+          ["Population Type", "Male", "Female", "Out of school youth", "Senior Citizen", "4PS", "MCCT", "Household Heads"],
+          ["Year", data.male_counts, data.female_counts, data.oosy_counts, data.senior,  data.ps_counts,  data.mcct_counts,  data.household_heads]
         );
       });
       this.loading = false;
@@ -973,28 +950,6 @@ export default {
       );
     },
 
-    async countPopulation() {
-      await axios.get(`/count-population`).then((response) => {
-        this.male = response.data[0];
-        this.female = response.data[1];
-        this.pwd = response.data[2];
-        this.senior = response.data[3];
-        this.dominant = response.data[4];
-        this.dominantAge = response.data[5];
-        this.lgbtq = response.data[6];
-      });
-
-      this.populationData.push(
-        ["Task", "Hours per Day"],
-        ["Male", this.male],
-        ["Female", this.female],
-        ["LGBTQ", this.lgbtq],
-        ["PWD", this.pwd],
-        ["Senior Citizen", this.senior],
-        ["Dominant Age = " + this.dominantAge, this.dominant]
-      );
-    },
-
     onProfilePicChange(e) {
       if (e.target?.files[0]) {
         this.proof_pic = null;
@@ -1055,7 +1010,7 @@ export default {
     async viaBarangayHall() {
       const data = {
         id: this.search,
-        status: "Approved",
+        status: "Unpaid Certificates",
       };
 
       await axios
@@ -1079,7 +1034,6 @@ export default {
     this.fetchCovid();
     this.fetchResident();
     this.countCovid();
-    this.countPopulation();
     this.fetchRevenue();
     this.fetchAgeStructure();
     this.fetchEducationCount();
