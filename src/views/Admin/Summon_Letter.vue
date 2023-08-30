@@ -25,6 +25,7 @@
         v-b-modal.modal-add
         v-if="
           permission == 'chairperson' ||
+          permission == 'kagawad' ||
           permission == 'secretary' ||
           permission == 'admin'
         "

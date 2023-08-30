@@ -208,7 +208,7 @@
           City is in the Province of Leyte > The province of Leyte is in Region
           8 – Eastern Visayas Region
         </h6>
-        <img :src="require('../../assets/images/brgy.jpg')" />
+        <img :src="require('../../assets/images/brgy.png')" />
       </div>
       <div class="table">
         <table class="table table-striped table-hover table-sm">

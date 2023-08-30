@@ -48,6 +48,7 @@
      permission == 'resident' ||
      permission == 'bspo' ||
      permission == 'bns' ||
+     permission == 'sk chairman' || 
      permission == 'bhw'
     "
    >
@@ -136,7 +137,7 @@
      <span class="menu-label">COVID-19</span>
     </router-link>
    </a>
-   <a v-if="permission == 'kagawad' || permission == 'chairperson' || permission == 'secretary' || permission == 'resident' || permission == 'bspo' || permission == 'bns' || permission == 'bhw'">
+   <a v-if="permission == 'sk chairman' || permission == 'kagawad' || permission == 'chairperson' || permission == 'secretary' || permission == 'resident' || permission == 'bspo' || permission == 'bns' || permission == 'bhw'">
     <router-link :to="{ name: 'Announcement' }">
      <i class="fas fa-bullhorn"></i>
      <span class="menu-label">Announcement</span>

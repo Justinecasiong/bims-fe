@@ -5,7 +5,7 @@
     <div class="col-10">
      <h2>Announcement</h2>
     </div>
-    <div class="col-2" v-if="permission == 'chairperson' || permission == 'kagawad' || permission == 'secretary' || permission == 'treasurer'">
+    <div class="col-2" v-if="permission == 'sk chairman' || permission == 'chairperson' || permission == 'kagawad' || permission == 'secretary' || permission == 'treasurer'">
      <button class="btn btn-primary" v-b-modal.modal-add> Add Announcement </button>
     </div>
    </div>
