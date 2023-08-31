@@ -636,10 +636,12 @@ export default {
       await axios.get(`/get-population-by-year`).then((response) => {
 
         let data = response.data;
+        console.log(data);
         this.populationByYearData.push(
           ["Population Type", "2019", "2020", "2021", "2022", "2023"],
           ["Year", 1511, 1654, 1610, 1570, data[2023]]
         )
+        console.log(this.populationByYearData);
       });
       this.loading = false;
       await this.fetchPopulationByType()
