@@ -1343,6 +1343,16 @@ export default {
         .then((response) => {
           response.data.forEach((element) => {
             this.allFamilyRecords.push(element);
+
+            this.allFamilyRecords.sort(function(a, b) {
+              var keyA = new Date(a.updated_at),
+                keyB = new Date(b.updated_at);
+              // Compare the 2 dates
+              if (keyA < keyB) return -1;
+              if (keyA > keyB) return 1;
+              return 0;
+            });
+            this.allFamilyRecords.reverse();
           });
         })
         .catch((error) => {
