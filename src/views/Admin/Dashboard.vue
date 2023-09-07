@@ -336,6 +336,7 @@ export default {
       unvaccinated: 0,
       firstPfizer: 0,
       firstModerna: 0,
+      latestYearCount: 0,
       firstAstrazeneca: 0,
       firstJohnson: 0,
       firstSinovac: 0,
@@ -637,9 +638,10 @@ export default {
 
         let data = response.data;
         console.log(data);
+        this.latestYearCount = data[2023];
         this.populationByYearData.push(
           ["Population Type", "2019", "2020", "2021", "2022", "2023"],
-          ["Year", 1511, 1654, 1610, 1570, data[2023]]
+          ["Year", 1511, 1654, 1610, 1570, this.latestYearCount]
         )
         console.log(this.populationByYearData);
       });

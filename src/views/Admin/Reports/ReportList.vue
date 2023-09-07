@@ -8,7 +8,9 @@
    </div>
    <div class="row">
     <center>
-     <h1>
+     <h1
+        v-if="officials.chairmanship"
+     >
       Reports on
       {{ officials.chairmanship.chairmanship_description }}
      </h1>
@@ -18,7 +20,7 @@
    <div class="row">
     <div
      class="col-md-4"
-     v-if="officials.position.position_description == 'Treasurer'"
+     v-if="officials.position && officials.position.position_description == 'Treasurer'"
     >
      <div class="form-group mb-3">
       <label class="filter">Type of report:</label>
@@ -52,6 +54,7 @@
    <button
     class="btn btn-primary mb-3"
     v-b-modal.modal-add
+    v-if="permission != 'chairperson' || (officials.chairmanship && officials.position.position_description == 'Chairperson')"
    >
     Add Report
    </button>
@@ -178,6 +181,7 @@ export default {
    perPage: 0,
 
    moment: moment,
+   permission: localStorage.getItem("permission"),
   };
  },
 

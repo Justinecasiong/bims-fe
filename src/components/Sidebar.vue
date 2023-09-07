@@ -3,8 +3,6 @@
   <div
    id="mySidebar"
    class="sidebar"
-   @mouseover="toggleSidebar()"
-   @mouseout="toggleSidebar()"
   >
    <div
     class="sidebar-header"
@@ -188,6 +186,17 @@
      <span class="menu-label">Logs</span>
     </router-link>
    </a>
+
+   <a v-on:click="toggleSidebar()" style="color:white"> 
+        <a v-if="mini">
+            <i class="fas fa-expand"></i>
+            <span class="menu-label">Expand</span>
+        </a>
+        <a v-if="!mini">
+            <i class="fas fa-compress"></i>
+            <span class="menu-label">Minimize</span>
+        </a>
+   </a>
   </div>
 
   <div id="main">
@@ -312,16 +321,13 @@ export default {
    if (this.mini) {
     this.mini = false;
     document.getElementById("mySidebar").style.width = "290px";
-    document.getElementById("mySidebar").style.overflowY = "scroll";
     document.getElementById("mySidebar").style.overflowX = "hidden";
     document.getElementById("main").style.marginLeft = "290px";
    } else {
     this.mini = true;
-    document.getElementById("mySidebar").style.width = "85px";
-    document.getElementById("mySidebar").style.overflow = "hidden";
+    document.getElementById("mySidebar").style.width = "100px";
     document.getElementById("main").style.marginLeft = "85px";
     document.getElementById("profile-pic").style.width = "60%";
-    document.getElementById("profile-pic").style.height = "60%";
    }
   },
  },
@@ -335,6 +341,8 @@ export default {
    this.fetchCertificationRequest();
    this.fetchResident();
   }
+  document.getElementById("mySidebar").style.overflowY = "scroll";
+  this.mini = true;
   this.toggleSidebar();
   window.onpopstate = () => {
    if (window.localStorage.getItem("token") !== null && this.$router.path == "/") {
