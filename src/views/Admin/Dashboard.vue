@@ -5,14 +5,6 @@
         <div class="col-10">
           <h1>General Information of Barangay 6-A</h1>
         </div>
-        <div
-          class="col"
-          v-if="permission == 'chairperson' || permission == 'admin'"
-        >
-          <router-link :to="{ name: 'Analytics' }">
-            <button class="btn btn-primary">View Analytics</button>
-          </router-link>
-        </div>
       </div>
     </div>
 
