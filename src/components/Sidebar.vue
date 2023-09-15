@@ -187,7 +187,7 @@
     </router-link>
    </a>
 
-   <a v-on:click="toggleSidebar()" style="color:white"> 
+   <a v-on:click="toggleSidebar()" style="color:white" class="custom-option"> 
         <a v-if="mini">
             <i class="fas fa-expand"></i>
             <span class="menu-label">Expand</span>
