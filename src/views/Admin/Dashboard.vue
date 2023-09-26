@@ -970,6 +970,7 @@ export default {
     },
 
     setCertificationID(data) {
+      console.log(data);
       this.search = data.id;
       this.certification = data.certification.certification_description;
       this.price = data.certification.price;

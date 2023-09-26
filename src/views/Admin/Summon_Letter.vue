@@ -296,36 +296,45 @@
       :hide-footer="true"
     >
       <button class="btn btn-primary" v-print="'#summonLetter'">Print</button>
-      <div id="summonLetter">
-        <div class="row justify-content-between align-items-center">
-          <div align="center" class="col">
-            <img
-              id="profile-pic"
-              class="profile-image m-auto"
-              :src="require('../../assets/images/brgylogo.png')"
-              height="130"
-            />
-          </div>
-          <div class="col text-center" style="line-height: 1.4">
-            <span>Republic of the Philippines</span><br />
-            <span>Province of LEYTE</span><br />
-            <span>TACLOBAN CITY</span><br />
-            <span style="font-weight: bold">
-              STO. NIÑO EXTENSION, BARANGAY 6-A </span
-            ><br />
-            <small style="font-style: italic"
-              >Mobile No. (053) 300 - 2436</small
-            >
-          </div>
-          <div align="center" class="col">
-            <img
-              id="profile-pic"
-              class="profile-image m-auto"
-              :src="require('../../assets/images/taclogo.png')"
-              height="130"
-            />
-          </div>
-        </div>
+      <div id="summonLetter" style=" font-size: 12px;">
+        <div style="text-align: center" class="mt-5">
+        <table style="width: 100%; border: none">
+          <tr>
+            <td>
+              <div class="left-logo">
+                <img
+                  class="logo"
+                  :src="require('../../assets/images/brgylogo.jpg')"
+                  width="120"
+                />
+              </div>
+            </td>
+
+            <td>
+              <div class="header-top">
+                <h5 style="font-size: 14pt">Republic of the Philippines</h5>
+                <h5 style="font-size: 14pt">Province of LEYTE</h5>
+                <h5 style="font-size: 14pt">TACLOBAN CITY</h5>
+                <h3 style="font-weight: bold; font-size: 14pt">
+                  STO. NIÑO EXTENSION, BARANGAY 6-A
+                </h3>
+                <h6 style="font-style: italic; font-size: 14pt">
+                  Mobile No. (053) 300 - 2436
+                </h6>
+              </div>
+            </td>
+            <td>
+              <div class="col-lg-4 right-logo">
+                <img
+                  class="logo"
+                  :src="require('../../assets/images/taclogo.png')"
+                  width="110"
+                />
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
         <div class="container-fluid text-center" style="padding: 20px 50px">
           <span style="font-weight: bold">
             OFFICE OF THE LUPONG TAGAPAMAYAPA</span
@@ -407,7 +416,7 @@
               font-weight: bold;
               font-family: cursive;
               letter-spacing: 5px;
-              font-size: 18px;
+              font-size: 16px;
             "
             >SUMMONS</span
           >
@@ -417,7 +426,7 @@
           ><br />
           <span style="font-weight: 600px; margin-left: 30px">Respondent</span>
         </div>
-        <div class="container-fluid" style="padding: 0 50px; line-height: 1.3">
+        <div class="container-fluid" style="padding: 0 50px; line-height: 1.3;">
           <p style="text-indent: 2cm">
             You are hereby summoned to appear before me in person, together with
             your witnesses, on the
@@ -476,13 +485,13 @@
               font-weight: bold;
               font-family: cursive;
               letter-spacing: 5px;
-              font-size: 18px;
+              font-size: 16px;
             "
           >
             OFFICER'S RETURN</span
           >
         </div>
-        <div class="container-fluid" style="padding: 0 50px">
+        <div class="container-fluid" style="padding: 0 50px; font-size: 12px;">
           <p style="text-indent: 2cm">
             I served this summon upon respondent
             <b>{{ this.summonData.respondent.toUpperCase() }}</b> on the

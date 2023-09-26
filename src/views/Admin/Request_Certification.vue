@@ -754,23 +754,23 @@ export default {
     async viewPrint(data) {
         if (data.certification_id == 1) {
             this.$router.push({
-              path: `/certificate/barangay_certificates/${data.certification.id}`,
+              path: `/certificate/barangay_certificates/${data.id}`,
             });
           } else if (
             data.certification_id == 2
           ) {
             this.$router.push({
-              path: `/certificate/barangay_clearance/${data.certification.id}`,
+              path: `/certificate/barangay_clearance/${data.id}`,
             });
           } else if (
             data.certification_id  == 4
           ) {
             this.$router.push({
-              path: `/certificate/Business_Clearance/${data.certification.id}`,
+              path: `/certificate/Business_Clearance/${data.id}`,
             });
           } else if (data.certification_id == 3) {
           this.$router.push({
-            path: `/certificate/indigency/${data.certification.id}`,
+            path: `/certificate/indigency/${data.id}`,
           });
         }
     },

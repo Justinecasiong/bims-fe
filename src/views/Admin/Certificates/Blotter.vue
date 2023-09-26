@@ -12,38 +12,43 @@
 
         <div class="certificate" id="certificate">
             <div style="text-align: center" class="mt-5">
-                <div class="row">
-                    <div class="col-lg-3 left-logo">
-                        <img
-                            class="logo"
-                            :src="
-                                require('../../../assets/images/brgylogo.jpg')
-                            "
-                            width="120"
-                        />
-                    </div>
-                    <div class="col-lg-6 header-top">
-                        <h5 style="font-size: 16pt">
-                            Republic of the Philippines
-                        </h5>
-                        <h5 style="font-size: 16pt">Province of LEYTE</h5>
-                        <h5 style="font-size: 16pt">TACLOBAN CITY</h5>
-                        <h3 style="font-weight: bold; font-size: 16pt">
-                            STO. NIÑO EXTENSION, BARANGAY 6-A
-                        </h3>
-                        <h6 style="font-style: italic; font-size: 16pt">
-                            Mobile No. (053) 300 - 2436
-                        </h6>
-                    </div>
-                    <div class="col-lg-3 right-logo">
-                        <img
-                            class="logo"
-                            :src="require('../../../assets/images/taclogo.png')"
-                            width="110"
-                        />
-                    </div>
-                </div>
-            </div>
+        <table style="width: 100%; border: none">
+          <tr>
+            <td>
+              <div class="left-logo">
+                <img
+                  class="logo"
+                  :src="require('../../../assets/images/brgylogo.jpg')"
+                  width="120"
+                />
+              </div>
+            </td>
+
+            <td>
+              <div class="header-top">
+                <h5 style="font-size: 14pt">Republic of the Philippines</h5>
+                <h5 style="font-size: 14pt">Province of LEYTE</h5>
+                <h5 style="font-size: 14pt">TACLOBAN CITY</h5>
+                <h3 style="font-weight: bold; font-size: 14pt">
+                  STO. NIÑO EXTENSION, BARANGAY 6-A
+                </h3>
+                <h6 style="font-style: italic; font-size: 14pt">
+                  Mobile No. (053) 300 - 2436
+                </h6>
+              </div>
+            </td>
+            <td>
+              <div class="col-lg-4 right-logo">
+                <img
+                  class="logo"
+                  :src="require('../../../assets/images/taclogo.png')"
+                  width="110"
+                />
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
 
             <div class="container">
                 <div class="row">
