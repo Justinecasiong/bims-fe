@@ -35,7 +35,7 @@
     </router-link>
    </div>
    <div class="col-3" v-if="permission == 'chairperson' || permission == 'admin'">
-    <a href="http://localhost:8000/api/exportDB/" target="_blank">
+    <a href="http://54.169.107.25:8080:8000/api/exportDB/" target="_blank">
      <div class="card card-round text-white" style="margin-top: 10px; background-color: #459a7d; cursor: pointer">
       <card-body>
        <p>Backup</p>
@@ -50,7 +50,7 @@
      <img :src="image" width="300" />
     </div>
     <div class="text-center mb-3" v-if="gcash.length != 0 && image == null">
-     <img :src="'http://127.0.0.0/qr_code/' + this.gcash[0].image" width="300" />
+     <img :src="'http://54.169.107.25:8080/qr_code/' + this.gcash[0].image" width="300" />
     </div>
 
     <div class="form-group text-center">
@@ -65,7 +65,7 @@
      <img :src="image" width="300" />
     </div>
     <div class="text-center mb-3" v-if="gcash.length != 0 && image == null">
-     <img :src="'http://127.0.0.0/qr_code/' + this.gcash[0].image" width="300" />
+     <img :src="'http://54.169.107.25:8080/qr_code/' + this.gcash[0].image" width="300" />
     </div>
    </div>
   </b-modal>

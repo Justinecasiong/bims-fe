@@ -17,7 +17,7 @@
      <img
       v-if="permission == 'resident' && this.residents.resident.profile_pic != null"
       class="profile-image"
-      :src="'http://localhost/img/' + this.residents.resident.profile_pic"
+      :src="'http://54.169.107.25:8080/img/' + this.residents.resident.profile_pic"
       height="50"
       alt="profile_image"
      />
@@ -43,7 +43,7 @@
      <img
       v-if="this.officials.officials && this.officials.officials.profile_pic"
       class="profile-image"
-      :src="'http://localhost/img/' + this.officials.officials.profile_pic"
+      :src="'http://54.169.107.25:8080/img/' + this.officials.officials.profile_pic"
       height="50"
       alt="profile_image"
      />

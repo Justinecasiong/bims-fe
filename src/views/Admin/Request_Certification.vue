@@ -225,7 +225,7 @@
       >
         <div class="text-center">
           <img
-            :src="'http://127.0.0.0/evidence/' + this.evidence"
+            :src="'http://54.169.107.25:8080/evidence/' + this.evidence"
             width="300"
           />
         </div>
@@ -242,7 +242,7 @@
       >
         <div class="text-center">
           <img
-            :src="'http://127.0.0.0/evidence/' + this.evidence"
+            :src="'http://54.169.107.25:8080/evidence/' + this.evidence"
             width="300"
           />
         </div>

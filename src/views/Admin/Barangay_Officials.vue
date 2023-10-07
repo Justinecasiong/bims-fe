@@ -83,7 +83,7 @@
        <img
         v-if="official.profile_pic != null"
         class="profile-image"
-        :src="'http://localhost/img/' + official.profile_pic"
+        :src="'http://54.169.107.25:8080/img/' + official.profile_pic"
         height="50"
        />
       </th>
@@ -725,7 +725,7 @@ export default {
    this.zone_id = data.zone_id;
    this.contact_num = data.contact_num;
    if (data.profile_pic != null) {
-    this.profile_pic = "http://localhost/img/" + data.profile_pic;
+    this.profile_pic = "http://54.169.107.25:8080/img/" + data.profile_pic;
     this.picture = data.profile_pic;
    } else {
     this.profile_pic = data.profile_pic;
@@ -733,7 +733,7 @@ export default {
   },
 
   async updateOfficial() {
-   var picture = "http://localhost/img/" + this.picture;
+   var picture = "http://54.169.107.25:8080/img/" + this.picture;
    var profile_picture;
    if (this.profile_pic == picture) {
     profile_picture = this.picture;

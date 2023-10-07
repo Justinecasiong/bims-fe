@@ -461,7 +461,7 @@
       >
         <img
           :src="
-            'http://127.0.0.0/identification/' + this.identification_img
+            'http://54.169.107.25:8080/identification/' + this.identification_img
           "
           height="300"
         />
@@ -619,7 +619,7 @@ export default {
 
     setResidents(data) {
       if (data.profile_pic != null) {
-        this.profile_pic = "http://localhost/img/" + data.profile_pic;
+        this.profile_pic = "http://54.169.107.25:8080/img/" + data.profile_pic;
         this.picture = data.profile_pic;
       } else {
         this.profile_pic = data.profile_pic;

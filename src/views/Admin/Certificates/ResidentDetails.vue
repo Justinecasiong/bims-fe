@@ -45,7 +45,7 @@
                                 <img
                                     v-if="residents[0].profile_pic != null"
                                     :src="
-                                        'http://localhost/img/' +
+                                        'http://54.169.107.25:8080/img/' +
                                         residents[0].profile_pic
                                     "
                                     height="200"
