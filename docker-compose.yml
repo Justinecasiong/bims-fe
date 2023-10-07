@@ -1,13 +1,20 @@
-version: '3.7'
+version: "2"
 
-services: 
-  my-app:
-    container_name: my-app
-    build: 
-      context: .
-      dockerfile: Dockerfile
-    volumes: 
-      - '.:/app'
-      - '/app/node_modules'
-    ports: 
-      - '8080:8080'
+services:
+  dist-serve:
+     build:
+         context: ./
+         dockerfile: Dockerfile
+     container_name: bims-angular
+     working_dir: /home/node/app
+     volumes:
+       - .:/home/node/app
+     environment:
+         - NODE_ENV=development
+     expose:
+         - "8081"
+         - "80"
+     ports:
+       - 80:80
+     tty: true
+     restart: always
