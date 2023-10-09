@@ -39,7 +39,7 @@
             <th scope="col">Given Deworming</th>
             <th scope="col">Given Vitamin A Supplementation</th>
             <th scope="col">Nutritional Status</th>
-            <th scope="col">Action</th>
+            <th scope="col" v-if="permission != 'chairperson'">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -61,7 +61,7 @@
             <td>{{ envs.dewormed }}</td>
             <td>{{ envs.given_vitamin_sipplementation }}</td>
             <td>{{ envs.nutritional_status }}</td>
-            <td>
+            <td v-if="permission != 'chairperson'">
               <button class="btn btn-primary mb-2" @click="viewDetails(envs)">
                 Update Information
               </button>

@@ -90,11 +90,6 @@
       style="margin-left: -10px"
       >Certificates Request</span
      >
-     <span
-      class="menu-label"
-      style="margin-left: 0px"
-      >Certificates Request</span
-     >
     </router-link>
    </a>
    <a v-if="permission == 'kagawad' || permission == 'chairperson' || permission == 'secretary'">
@@ -163,7 +158,7 @@
    <a v-if="permission == 'chairperson' || permission == 'secretary' || permission == 'kagawad' || permission == 'bns'">
     <router-link :to="{ name: 'OPT_Plus' }">
      <i class="fa fa-leaf"></i>
-     <span class="menu-label">OPT Plus</span>
+     <span class="menu-label">Operation Timbang Plus</span>
     </router-link>
    </a>
 

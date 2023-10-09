@@ -28,7 +28,7 @@
       <th scope="col">Birthday (YYYY/MM/DD)</th>
       <th scope="col">Weight</th>
       <th scope="col">Length/Height</th>
-      <th scope="col">Action</th>
+      <th scope="col" >Action</th>
      </tr>
     </thead>
 
@@ -44,7 +44,7 @@
       <td> {{ opt.length_height }} </td>
       <td>
        <button class="btn btn-primary mb-2" @click="viewDetails(opt)">View Details</button>
-       <button v-if="permission == 'bns'" class="btn btn-danger" @click="deleteOpt(opt.id)">Delete Record</button>
+       <button v-if="permission == 'bns' && permission != 'chairperson'" class="btn btn-danger" @click="deleteOpt(opt.id)" >Delete Record</button>
       </td>
      </tr>
     </tbody>
