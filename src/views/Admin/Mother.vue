@@ -44,7 +44,7 @@
             <th scope="col">Abortion/Miscarriage</th>
             <th scope="col">Experience 2 Postpartum Check Up with newborn</th>
             <th scope="col">Experience 2 Postpartum Check Up as pregnant</th>
-            <th scope="col">Action</th>
+            <th scope="col" v-if="permission != 'chairperson'">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -73,7 +73,7 @@
             <td>{{ member.is_miscarriage_or_abortion }}</td>
             <td>{{ member.postpartum_with_newborn }}</td>
             <td>{{ member.postpartum_as_pregnant }}</td>
-            <td>
+            <td v-if="permission != 'chairperson'">
               <button class="btn btn-primary mb-2" @click="viewDetails(member)">
                 Update Information
               </button>

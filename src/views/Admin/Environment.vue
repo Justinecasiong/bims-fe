@@ -28,7 +28,7 @@
       <th scope="col">No. of Hypertensive in family</th>
       <th scope="col">No. of diabetic in family</th>
       <th scope="col">No. of high risk in family</th>
-      <th scope="col">Action</th>
+      <th scope="col" v-if="permission != 'chairperson'">Action</th>
      </tr>
     </thead>
     <tbody v-if="householdEnvs.length > 0">
@@ -42,7 +42,7 @@
       <td>{{ envs.hypertensive_family_no }}</td>
       <td>{{ envs.diabetic_family_no }}</td>
       <td>{{ envs.high_risk_family_no }}</td>
-      <td>
+      <td v-if="permission != 'chairperson'">
        <button class="btn btn-primary mb-2" @click="viewDetails(envs)">Update Environment</button>
       </td>
      </tr>

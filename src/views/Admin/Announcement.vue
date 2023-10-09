@@ -12,9 +12,9 @@
   </div>
 
   <div class="container" v-for="announcement in announcements" :key="announcement.id">
-   <div class="card card-round text-center text-white mt-4" style="background-color: #459a7d">
+   <div class="card card-round text-center text-white mt-4" style="background-color: #749DD3">
     <div class="row mt-3">
-     <div class="col-2 text-start">
+     <div class="col-3 text-start">
       <div class="row mt-3">
        <h2 class="fw-bold">WHAT:</h2>
       </div>
@@ -31,10 +31,10 @@
        <h2 class="fw-bold">WHY:</h2>
       </div>
       <div class="row mt-3">
-       <h2 class="fw-bold">HOW:</h2>
+       <h2 class="fw-bold">Announced By:</h2>
       </div>
      </div>
-     <div class="col-7 text-start">
+     <div class="col-6 text-start">
       <div class="row mt-3">
        <h2>{{ announcement.announcement_what }}</h2>
       </div>
@@ -55,7 +55,7 @@
       </div>
      </div>
      <div class="col-2" v-if="permission == 'chairperson' || permission == 'kagawad' || permission == 'secretary' || permission == 'treasurer'">
-      <div style="margin: auto; position: absolute; top: 50%" v-if="permission != 'resident'">
+      <div style="margin: auto; position: absolute; top: 35px; right:50px" v-if="permission != 'resident'">
        <button class="btn btn-secondary" v-b-modal.modal-edit @click="setPosition(announcement)">
         <i class="fas fa-edit"></i>
        </button>
@@ -100,7 +100,7 @@
    </div>
    <div class="row mt-3">
     <div class="form-group">
-     <label for="complainant" class="control-label"> How: </label>
+     <label for="complainant" class="control-label"> Announced By: </label>
      <textarea v-model="how" type="text" class="form-control" id="complainant"></textarea>
     </div>
    </div>
@@ -139,7 +139,7 @@
    </div>
    <div class="row mt-3">
     <div class="form-group">
-     <label for="complainant" class="control-label"> How: </label>
+     <label for="complainant" class="control-label"> Announced By: </label>
      <textarea v-model="how" type="text" class="form-control" id="complainant"></textarea>
     </div>
    </div>

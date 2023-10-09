@@ -9,7 +9,7 @@
   </div>
 
   <div class="row gap-5">
-   <div class="col-3" v-if="permission == 'chairperson' || permission == 'treasurer'  || permission == 'admin'" style="cursor: pointer" v-b-modal.modal-gcash>
+   <div class="col-3" v-if="permission == 'chairperson' || permission == 'treasurer' " style="cursor: pointer" v-b-modal.modal-gcash>
     <div class="card card-round text-white" style="margin-top: 10px; background-color: #459a7d">
      <card-body>
       <p>GCASH QR Code</p>
@@ -34,7 +34,7 @@
      </div>
     </router-link>
    </div>
-   <div class="col-3" v-if="permission == 'chairperson' || permission == 'admin'">
+   <!-- <div class="col-3" v-if="permission == 'chairperson' || permission == 'admin'">
     <a href="http://localhost:8000/api/exportDB/" target="_blank">
      <div class="card card-round text-white" style="margin-top: 10px; background-color: #459a7d; cursor: pointer">
       <card-body>
@@ -42,7 +42,7 @@
       </card-body>
      </div>
     </a>
-   </div>
+   </div> -->
   </div>
   <b-modal id="modal-gcash" size="md" title="GCASH Payment" centered @ok.prevent="gcash.length != 0 ? updateGcash() : createGcash()" @hidden="resetFields()" ok-title="Save">
    <div class="row">
