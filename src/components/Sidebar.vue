@@ -85,7 +85,6 @@
       v-if="filterRequestStatus.length != 0"
      ></div>
      <span
-      v-if="filterRequestStatus.length != 0"
       class="menu-label"
       style="margin-left: -10px"
       >Certificates Request</span
