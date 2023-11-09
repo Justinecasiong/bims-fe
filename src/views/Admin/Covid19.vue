@@ -376,7 +376,7 @@ export default {
             this.resetFields();
             if (data.resident.profile_pic != null) {
                 this.profile_pic =
-                    "http://54.169.107.25:8080/img/" + data.resident.profile_pic;
+                    "http://13.229.52.4:8080/img/" + data.resident.profile_pic;
             } else {
                 this.profile_pic = data.resident.profile_pic;
             }

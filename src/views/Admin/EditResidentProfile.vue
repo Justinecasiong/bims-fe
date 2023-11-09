@@ -18,7 +18,7 @@
                             profile_pic != null && profile_pic == this.picture
                         "
                         class="profile-image"
-                        :src="'http://54.169.107.25:8080/img/' + profile_pic"
+                        :src="'http://13.229.52.4:8080/img/' + profile_pic"
                         height="200"
                     />
                     <img

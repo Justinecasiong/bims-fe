@@ -1607,7 +1607,7 @@ export default {
     setResidents(data) {
       this.resetFields();
       if (data.profile_pic != null) {
-        this.profile_pic = "http://54.169.107.25:8080/img/" + data.profile_pic;
+        this.profile_pic = "http://13.229.52.4:8080/img/" + data.profile_pic;
         this.picture = data.profile_pic;
       } else {
         this.profile_pic = data.profile_pic;
@@ -1635,7 +1635,7 @@ export default {
     },
 
     async updateResident() {
-      var picture = "http://54.169.107.25:8080/img/" + this.picture;
+      var picture = "http://13.229.52.4:8080/img/" + this.picture;
       var profile_picture;
       if (this.profile_pic == picture) {
         profile_picture = this.picture;

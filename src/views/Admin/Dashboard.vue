@@ -260,7 +260,7 @@
           <div class="text-center mb-3">
             <img v-if="this.gcash.length > 0 "
               :src="
-                'http://54.169.107.25:8080/qr_code/' +
+                'http://13.229.52.4:8080/qr_code/' +
                 (this.gcash.length > 0 ? this.gcash[0].image : '')
               "
               width="300"
