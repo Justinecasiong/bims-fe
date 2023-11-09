@@ -1,8 +1,8 @@
 <template>
  <nav class="navbar navbar-expand-lg shadow">
-  <div class="container-fluid">
+  <div class="container-fluid  d-flex flex-row align-items-center justify-content-between">
    <div
-    class="text col-lg-5"
+    class="text"
     v-if="permission == 'resident'"
     style="display: inline"
    >
@@ -28,7 +28,7 @@
    </div>
 
    <div
-    class="text col-lg-8"
+    class="text"
     v-if="permission == 'treasurer' || permission == 'kagawad' || permission == 'chairperson' || permission == 'secretary' || permission == 'bns' || permission == 'bspo' || permission == 'bhw'"
     style="display: inline"
    >
@@ -54,29 +54,30 @@
    </div>
 
    <div
-    class="text col-lg-7"
+    class="text"
     v-if="permission == 'admin'"
     style="display: inline"
    >
     <h5 style="margin-top: 20px">Admin</h5>
    </div>
 
-   <div class="col-lg-3 mt-3">
-    <h5>{{ timestamp }}</h5>
+   <div class="mt-3 d-flex flex-row align-items-center justify-content-between">
+    <h5 style="white-space: nowrap; margin-right: 10px;">{{ timestamp }}</h5>
+    <div>
+        <b-dropdown
+        id="dropdown-1"
+        class="m-md-2"
+        right
+        variant="primary"
+        title="Profile Settings"
+        >
+        <b-dropdown-item @click="editProfile()"> Edit Profile </b-dropdown-item>
+        <b-dropdown-item @click="logOut()">Logout</b-dropdown-item>
+        </b-dropdown>
+    </div>
    </div>
 
-   <div style="text-align: right">
-    <b-dropdown
-     id="dropdown-1"
-     class="m-md-2"
-     right
-     variant="primary"
-     title="Profile Settings"
-    >
-     <b-dropdown-item @click="editProfile()"> Edit Profile </b-dropdown-item>
-     <b-dropdown-item @click="logOut()">Logout</b-dropdown-item>
-    </b-dropdown>
-   </div>
+   
   </div>
  </nav>
 </template>

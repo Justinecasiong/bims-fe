@@ -35,7 +35,7 @@
             <th scope="col">NHTS 4ps/MCCT</th>
             <th scope="col">Family Planning</th>
             <th scope="col">Maternal Care and Services</th>
-            <th scope="col">Did You Give birth this month?</th>
+            <th scope="col">Did you give birth this year?</th>
             <th scope="col">Date/Place of Delivery</th>
             <th scope="col">Type of Delivery</th>
             <th scope="col">Person who deliver</th>

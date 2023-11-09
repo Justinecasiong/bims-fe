@@ -23,14 +23,7 @@
     class="btn btn-primary mb-3"
     v-b-modal.modal-add
     v-if="
-     permission == 'secretary' ||
-     permission == 'admin' ||
-     permission == 'treasurer' ||
-     permission == 'kagawad' ||
-     permission == 'bspo' ||
-     permission == 'bns' ||
-     permission == 'bhw' ||
-     permission == 'chairperson'
+     permission == 'admin' 
     "
    >
     Add Officials

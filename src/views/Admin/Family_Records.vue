@@ -302,6 +302,11 @@
                   <option value="Mother">Mother</option>
                   <option value="Son">Son</option>
                   <option value="Daughter">Daughter</option>
+                  <option value="Cousin">Cousin</option>
+                  <option value="Niece">Niece</option>
+                  <option value="Nephew">Nephew</option>
+                  <option value="Grandmother">Grandmother</option>
+                  <option value="Grandfather">Grandfather</option>
                 </select>
                 <div v-if="this.errors.relationship">
                   <label style="color: red; font-weight: 500">{{
@@ -357,6 +362,7 @@
                   <option value="College Level">College Level</option>
                   <option value="College Grad">College Grad</option>
                   <option value="Post Graduate">Post Graduate</option>
+                  <option value="N/A">N/A</option>
                 </select>
                 <div v-if="this.errors.education">
                   <label style="color: red; font-weight: 500">{{
@@ -796,6 +802,11 @@
                   <option value="Mother">Mother</option>
                   <option value="Son">Son</option>
                   <option value="Daughter">Daughter</option>
+                  <option value="Cousin">Cousin</option>
+                  <option value="Niece">Niece</option>
+                  <option value="Nephew">Nephew</option>
+                  <option value="Grandmother">Grandmother</option>
+                  <option value="Grandfather">Grandfather</option>
                 </select>
                 <div v-if="this.errors.relationship">
                   <label style="color: red; font-weight: 500">{{
@@ -851,6 +862,7 @@
                   <option value="College Level">College Level</option>
                   <option value="College Grad">College Grad</option>
                   <option value="Post Graduate">Post Graduate</option>
+                  <option value="N/A">N/A</option>
                 </select>
                 <div v-if="this.errors.education">
                   <label style="color: red; font-weight: 500">{{
