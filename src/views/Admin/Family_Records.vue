@@ -94,16 +94,6 @@
               >
                 <i class="fas fa-file"></i>
               </button>
-
-              <button
-                v-if="permission == 'chairperson' || permission == 'secretary'"
-                class="btn btn-secondary mb-2"
-                @click="
-                  openConfirmationModal(household, household.household_head_id)
-                "
-              >
-                <i class="fas fa-user"></i>
-              </button>
             </td>
           </tr>
         </tbody>
