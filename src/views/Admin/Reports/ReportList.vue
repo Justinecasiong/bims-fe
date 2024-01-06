@@ -69,6 +69,7 @@
     <thead>
      <tr>
       <th scope="col">#</th>
+      <th scope="col">Reporters name</th>
       <th scope="col">File name</th>
       <th scope="col">Date uploaded</th>
       <th scope="col">Action</th>
@@ -79,9 +80,10 @@
       v-for="(report, index) in reports"
       :key="report.id"
      >
-      <th scope="row">{{ index + 1 }}</th>
-      <th>{{ report.file_name }}</th>
-      <th>{{ moment(report.create_at).format("LL") }}</th>
+      <td scope="row">{{ index + 1 }}</td>
+      <td>{{ report.barangay_official ? report.barangay_official.fullname : '' }}</td>
+      <td>{{ report.file_name }}</td>
+      <td>{{ moment(report.create_at).format("LL") }}</td>
       <td>
        <button
         class="btn btn-primary"
@@ -228,7 +230,7 @@ export default {
    //     id: this.id,
    // };
    await axios
-    .get(`/file?page=${this.currentPage}&search=${this.search}&id=${this.id}`)
+    .get(`/file?page=${this.currentPage}&search=${this.search}&id=${this.id}&remember_token=${localStorage.getItem("token")}`)
     .then((response) => {
      this.reports = response.data.data;
     })
@@ -259,16 +261,11 @@ export default {
    let formData = new FormData();
    formData.append("file", this.file);
 
-   axios.post(`/formSubmit?report_type_id=${this.id}&report_type=${this.report_type}&remember_token=${localStorage.getItem("token")}`, formData).then(() => {
+   axios.post(`/formSubmit?report_type_id=${this.id}&report_type=file&remember_token=${localStorage.getItem("token")}`, formData).then(() => {
     this.getReportType();
     this.$toast.success("Document has been uploaded.");
-    if (this.officials.position.position_description == "Treasurer") {
-     this.report_type = "Summary Collection";
-     this.fetchReportType();
-    } else {
      this.findReports();
      this.report_type = "file";
-    }
     this.$bvModal.hide("modal-add");
    });
   },
