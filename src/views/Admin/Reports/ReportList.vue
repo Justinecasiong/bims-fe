@@ -2,17 +2,13 @@
  <div class="container">
   <div class="page-header">
    <div class="row">
-    <div class="col-10">
-     <h1>{{ officials.fullname }}</h1>
-    </div>
    </div>
    <div class="row">
     <center>
      <h1
-        v-if="officials.chairmanship"
      >
       Reports on
-      {{ officials.chairmanship.chairmanship_description }}
+      {{ reportType.name }}
      </h1>
     </center>
    </div>
@@ -54,7 +50,6 @@
    <button
     class="btn btn-primary mb-3"
     v-b-modal.modal-add
-    v-if="permission != 'chairperson' || (officials.chairmanship && officials.position.position_description == 'Chairperson')"
    >
     Add Report
    </button>
@@ -74,6 +69,7 @@
     <thead>
      <tr>
       <th scope="col">#</th>
+      <th scope="col">Reporters name</th>
       <th scope="col">File name</th>
       <th scope="col">Date uploaded</th>
       <th scope="col">Action</th>
@@ -84,9 +80,10 @@
       v-for="(report, index) in reports"
       :key="report.id"
      >
-      <th scope="row">{{ index + 1 }}</th>
-      <th>{{ report.file_name }}</th>
-      <th>{{ moment(report.create_at).format("LL") }}</th>
+      <td scope="row">{{ index + 1 }}</td>
+      <td>{{ report.barangay_official ? report.barangay_official.fullname : '' }}</td>
+      <td>{{ report.file_name }}</td>
+      <td>{{ moment(report.create_at).format("LL") }}</td>
       <td>
        <button
         class="btn btn-primary"
@@ -169,6 +166,7 @@ export default {
  data() {
   return {
    officials: [],
+   reportType: [],
    reports: [],
 
    report_id: null,
@@ -209,13 +207,30 @@ export default {
    this.loading = false;
   },
 
+  async getReportType() {
+   this.loading = true;
+   var data = {
+    id: this.id,
+   };
+   await axios
+    .post(`/get-report-type`, data)
+    .then((response) => {
+        this.reportType = response.data;
+        this.findReports();
+    })
+    .catch((error) => {
+     return error.response;
+    });
+   this.loading = false;
+  },
+
   async findReports() {
    this.loading = true;
    // var data = {
    //     id: this.id,
    // };
    await axios
-    .get(`/file?page=${this.currentPage}&search=${this.search}&id=${this.id}`)
+    .get(`/file?page=${this.currentPage}&search=${this.search}&id=${this.id}&remember_token=${localStorage.getItem("token")}`)
     .then((response) => {
      this.reports = response.data.data;
     })
@@ -246,16 +261,11 @@ export default {
    let formData = new FormData();
    formData.append("file", this.file);
 
-   axios.post(`/formSubmit?official_id=${this.id}&report_type=${this.report_type}&remember_token=${localStorage.getItem("token")}`, formData).then(() => {
-    this.findOfficial();
+   axios.post(`/formSubmit?report_type_id=${this.id}&report_type=file&remember_token=${localStorage.getItem("token")}`, formData).then(() => {
+    this.getReportType();
     this.$toast.success("Document has been uploaded.");
-    if (this.officials.position.position_description == "Treasurer") {
-     this.report_type = "Summary Collection";
-     this.fetchReportType();
-    } else {
      this.findReports();
      this.report_type = "file";
-    }
     this.$bvModal.hide("modal-add");
    });
   },
@@ -289,7 +299,7 @@ export default {
  },
 
  mounted() {
-  this.findOfficial();
+  this.getReportType();
  },
 };
 </script>

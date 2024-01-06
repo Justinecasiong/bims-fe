@@ -78,7 +78,8 @@
                 Purpose
               </th>
               <th scope="col">Status</th>
-              <th scope="col" v-if="search_status != 'Printed'">Action</th>
+              <th scope="col" v-if="search_status == 'Rejected'">Reason</th>
+              <th scope="col" v-if="search_status != 'Printed' && search_status != 'Rejected'">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -111,6 +112,11 @@
               </td>
               <td>
                 {{ certification_request.status }}
+              </td>
+              <td
+                v-if="search_status == 'Rejected'"
+              >
+                {{ certification_request.reason }}
               </td>
               <td
                 v-if="
@@ -153,7 +159,7 @@
                   v-b-modal.modal-delete
                   @click="setPosition(certification_request)"
                 >
-                  <i class="fas fa-trash"></i>
+                  <i class="fas fa-times"></i>
                 </button>
               </td>
               <td v-if="certification_request.status == 'Approved'">
@@ -556,9 +562,16 @@
         centered
         @hidden="resetFields()"
         @ok.prevent="deletePosition()"
-        ok-title="Delete"
+        ok-title="Confirm"
       >
-        Are you sure you want to delete this request?
+        Enter reason for rejection
+        <input
+              v-model="reason"
+              type="text"
+              class="form-control"
+              name="rejection_reason"
+              id="rejection_reason"
+            />
       </b-modal>
     </div>
   </div>
@@ -597,6 +610,7 @@ export default {
       payment_detail: null,
 
       search_status: "Pending",
+      reason: null,
       // search: "",
       today: moment(new Date()).format("LL"),
 
@@ -991,6 +1005,7 @@ export default {
         resident_id: this.resident_id,
         certification_id: this.certification_id,
         purpose: this.purpose,
+        reason: this.reason,
         status: "Rejected",
       };
 
