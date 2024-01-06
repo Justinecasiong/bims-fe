@@ -2,17 +2,13 @@
  <div class="container">
   <div class="page-header">
    <div class="row">
-    <div class="col-10">
-     <h1>{{ officials.fullname }}</h1>
-    </div>
    </div>
    <div class="row">
     <center>
      <h1
-        v-if="officials.chairmanship"
      >
       Reports on
-      {{ officials.chairmanship.chairmanship_description }}
+      {{ reportType.name }}
      </h1>
     </center>
    </div>
@@ -54,7 +50,6 @@
    <button
     class="btn btn-primary mb-3"
     v-b-modal.modal-add
-    v-if="permission != 'chairperson' || (officials.chairmanship && officials.position.position_description == 'Chairperson')"
    >
     Add Report
    </button>
@@ -169,6 +164,7 @@ export default {
  data() {
   return {
    officials: [],
+   reportType: [],
    reports: [],
 
    report_id: null,
@@ -202,6 +198,23 @@ export default {
       this.findReports();
       this.report_type = "file";
      }
+    })
+    .catch((error) => {
+     return error.response;
+    });
+   this.loading = false;
+  },
+
+  async getReportType() {
+   this.loading = true;
+   var data = {
+    id: this.id,
+   };
+   await axios
+    .post(`/get-report-type`, data)
+    .then((response) => {
+        this.reportType = response.data;
+        this.findReports();
     })
     .catch((error) => {
      return error.response;
@@ -246,8 +259,8 @@ export default {
    let formData = new FormData();
    formData.append("file", this.file);
 
-   axios.post(`/formSubmit?official_id=${this.id}&report_type=${this.report_type}&remember_token=${localStorage.getItem("token")}`, formData).then(() => {
-    this.findOfficial();
+   axios.post(`/formSubmit?report_type_id=${this.id}&report_type=${this.report_type}&remember_token=${localStorage.getItem("token")}`, formData).then(() => {
+    this.getReportType();
     this.$toast.success("Document has been uploaded.");
     if (this.officials.position.position_description == "Treasurer") {
      this.report_type = "Summary Collection";
@@ -289,7 +302,7 @@ export default {
  },
 
  mounted() {
-  this.findOfficial();
+  this.getReportType();
  },
 };
 </script>
