@@ -136,7 +136,7 @@
                                     this.residents.civil_status.toUpperCase()
                                 }}</b
                             >
-                            and is a bona fide resident of this Barangay with
+                            and is a bona fide resident of of Sto. Nino Extension, Barangay 6-A, Tacloban City with
                             Postal address
                             <b> {{ this.residents.address.toUpperCase() }}</b
                             >.
@@ -144,8 +144,7 @@
                         <br />
                         <h5>
                             &nbsp;&nbsp; &nbsp; &nbsp; THIS CERTIFICATION is
-                            hereby issued to the above-named person for whatever
-                            legal purpose it may serve him/her best.
+                            hereby issued to the above-named person for <b>{{ this.purpose }}</b>
                         </h5>
                         <br />
                         <h5>
@@ -213,6 +212,7 @@ export default {
         return {
             date: moment(new Date()).format("LL"),
             search: "",
+            purpose: "",
 
             officials: [],
             residents: [],
@@ -265,6 +265,7 @@ export default {
             await axios
                 .get(`/certification_request?search=${this.id}`)
                 .then((response) => {
+                    this.purpose = response.data.data[0].purpose;
                     this.residents = response.data.data[0].resident;
                 });
             this.loading = false;

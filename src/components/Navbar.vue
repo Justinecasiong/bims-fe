@@ -29,7 +29,7 @@
 
    <div
     class="text"
-    v-if="permission == 'treasurer' || permission == 'kagawad' || permission == 'chairperson' || permission == 'secretary' || permission == 'bns' || permission == 'bspo' || permission == 'bhw'"
+    v-if="permission != 'resident'"
     style="display: inline"
    >
     <h5 style="margin-top: 20px" v-if="this.officials.officials">

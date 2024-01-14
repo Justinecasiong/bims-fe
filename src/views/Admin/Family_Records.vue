@@ -36,8 +36,8 @@
             <th scope="col">Civil Status</th>
             <th scope="col">Date of Birth</th>
             <th scope="col">Age</th>
-            <th scope="col">Relationship</th>
             <th scope="col">Highest Educational Attainment</th>
+            <th scope="col">Date Registered/Updated</th>
             <th scope="col">Action</th>
           </tr>
         </thead>
@@ -54,8 +54,8 @@
             <td>{{ household.civil_status }}</td>
             <td>{{ household.birthdate }}</td>
             <td>{{ getAge(household.birthdate) }}</td>
-            <td>{{ household.relationship }}</td>
             <td>{{ household.education }}</td>
+            <td>{{  moment(household.updated_at).format('YYYY-MM-DD HH:mm') }}</td>
             <td v-if="permission == 'bspo'">
               <button
                 v-if="household.household_head_id"
@@ -596,7 +596,7 @@
           >
             Cancel
           </button>
-          <button class="btn btn-primary" type="submit">Update Record</button>
+          <button class="btn btn-primary" type="submit">APPROVE</button>
         </div>
       </form>
     </b-modal>
@@ -1102,7 +1102,7 @@
           >
             Cancel
           </button>
-          <button class="btn btn-primary" type="submit">Update Record</button>
+          <button class="btn btn-primary" type="submit">APPROVE</button>
         </div>
       </form>
     </b-modal>
@@ -1249,6 +1249,7 @@ import moment from "moment";
 export default {
   data() {
     return {
+      moment: moment,
       business_name: null,
       business_owner: null,
       business_nature: null,
