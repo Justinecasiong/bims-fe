@@ -9,19 +9,20 @@
     </div>
 
     <div class="container">
-      <div
-        v-if="certification_requests.length != 0 && permission == 'resident'"
-        class="card shadow-lg"
-      >
-        <div
-          v-for="certification in certification_requests"
-          :key="certification.id"
-        >
+      <div v-if="certification_requests.length != 0 && permission == 'resident'" class="card shadow-lg">
+        <div v-for="certification in certification_requests" :key="certification.id">
           <div class="row mb-4" v-if="certification.status == 'Pending'">
             <h4 style="font-weight: lighter">
               Your request for
               {{ certification.certification.certification_description }}
               is now pending for approval.
+            </h4>
+          </div>
+          <div class="row mb-4" v-if="certification.status == 'Rescheduled'">
+            <h4 style="font-weight: lighter">
+              Your request for
+              {{ certification.certification.certification_description }}
+              is now has been rescheduled to {{ certification.date }} {{ certification.time }} due to {{ certification.reason }}.
             </h4>
           </div>
           <div class="row mb-4" v-if="certification.status == 'Approved'">
@@ -37,10 +38,7 @@
               </span>
             </h4>
           </div>
-          <div
-            class="row mb-4"
-            v-if="certification.status == 'Unpaid Certificates'"
-          >
+          <div class="row mb-4" v-if="certification.status == 'Unpaid Certificates'">
             <h4 style="font-weight: lighter">
               <span>
                 Your request for
@@ -59,140 +57,90 @@
               </span>
             </h4>
           </div>
-          <div
-            class="row mb-4"
-            v-if="
-              certification.certification.certification_description !=
-                'Certificate of Indigency' &&
-              certification.status == 'Unpaid Certificates'
-            "
-          >
+          <div class="row mb-4" v-if="certification.certification.certification_description !=
+            'Certificate of Indigency' &&
+            certification.status == 'Unpaid Certificates'
+            ">
             <h4 style="font-weight: lighter">
               <span style="font-style: italic">
                 <br />
                 Click
-                <span
-                  style="
+                <span style="
                     color: blue;
                     text-decoration: underline;
                     cursor: pointer;
-                  "
-                  @click="setCertificationID(certification)"
-                  v-b-modal.modal-payment
-                >
-                  here</span
-                >
+                  " @click="setCertificationID(certification)" v-b-modal.modal-payment>
+                  here</span>
                 to choose mode of payment. (required)
               </span>
             </h4>
           </div>
         </div>
       </div>
-      <div
-        class="row card shadow-lg text-center"
-        v-if="
-          permission != 'resident' ||
-          permission != 'bns' ||
-          permission != 'bhw' ||
-          permission != 'bspo'
-        "
-      >
-      <div class="col card shadow text-center">
+      <div class="row card shadow-lg text-center" v-if="permission != 'resident' ||
+        permission != 'bns' ||
+        permission != 'bhw' ||
+        permission != 'bspo'
+        ">
+        <div class="col card shadow text-center">
           <div class="card-header">
             <div class="card-title fw-bold">Population Chart</div>
           </div>
-          <GChart
-            type="ColumnChart"
-            :data="populationByTypeData"
-            :options="populationByTypeOptions"
-          />
+          <GChart type="ColumnChart" :data="populationByTypeData" :options="populationByTypeOptions" />
         </div>
         <div class="col card shadow text-center">
           <div class="card-header">
             <div class="card-title fw-bold">Population by Year</div>
           </div>
-          <GChart
-            type="ColumnChart"
-            :data="populationByYearData"
-            :options="populationByYearOptions"
-          />
+          <GChart type="ColumnChart" :data="populationByYearData" :options="populationByYearOptions" />
         </div>
         <div class="col card shadow text-center">
           <div class="card-header">
             <div class="card-title fw-bold">Age Structure</div>
           </div>
-          <GChart
-            type="ColumnChart"
-            :data="ageStructure"
-            :options="ageStructureOptions"
-          />
+          <GChart type="ColumnChart" :data="ageStructure" :options="ageStructureOptions" />
         </div>
         <div class="col card shadow text-center">
           <div class="card-header">
             <div class="card-title fw-bold">Educational Attainment</div>
           </div>
-          <GChart
-            type="ColumnChart"
-            :data="edAttainments"
-            :options="edAttainmentsOptions"
-          />
+          <GChart type="ColumnChart" :data="edAttainments" :options="edAttainmentsOptions" />
         </div>
         <div class="col card shadow text-center">
           <div class="card-header">
             <div class="card-title fw-bold">Occupation</div>
           </div>
-          <GChart
-            type="ColumnChart"
-            :data="occupations"
-            :options="occupationsOptions"
-          />
+          <GChart type="ColumnChart" :data="occupations" :options="occupationsOptions" />
         </div>
-        <b-container v-if="permission != 'bns' && permission != 'bhw' && permission != 'bspo' && permission != 'resident'">
+        <b-container
+          v-if="permission != 'bns' && permission != 'bhw' && permission != 'bspo' && permission != 'resident'">
           <div class="col card-header">
-          <div class="row">
-            <div class="col-10">
-              <div class="card-title fw-bold">Transactions</div>
-            </div>
-            <div class="col">
-              <select
-                class="form-select"
-                id="inputGroupSelect01"
-                v-model="type_of_chart"
-              >
-                <option :value="'Annual Report'">Annual Report</option>
-                <option :value="'Monthly Report'">Monthly Report</option>
-              </select>
+            <div class="row">
+              <div class="col-10">
+                <div class="card-title fw-bold">Transactions</div>
+              </div>
+              <div class="col">
+                <select class="form-select" id="inputGroupSelect01" v-model="type_of_chart">
+                  <option :value="'Annual Report'">Annual Report</option>
+                  <option :value="'Monthly Report'">Monthly Report</option>
+                </select>
+              </div>
             </div>
           </div>
-        </div>
-        <div v-if="type_of_chart == 'Annual Report'">
-          <GChart
-            type="ColumnChart"
-            :data="revenueDataByYear"
-            :options="revenueOptions"
-          />
-        </div>
-        <div v-if="type_of_chart == 'Monthly Report'">
-          <GChart
-            type="ColumnChart"
-            :data="revenueDataByMonth"
-            :options="revenueOptions"
-          />
-        </div>
+          <div v-if="type_of_chart == 'Annual Report'">
+            <GChart type="ColumnChart" :data="revenueDataByYear" :options="revenueOptions" />
+          </div>
+          <div v-if="type_of_chart == 'Monthly Report'">
+            <GChart type="ColumnChart" :data="revenueDataByMonth" :options="revenueOptions" />
+          </div>
         </b-container>
         <div class="col card shadow text-center">
           <div class="card-header">
             <div class="card-title fw-bold">Covid-19 Status Chart</div>
           </div>
-          <GChart
-            type="ColumnChart"
-            :data="covidData"
-            :options="covidOptions"
-            :events="chartEvents"
-            ref="gChart"
-          />
+          <GChart type="ColumnChart" :data="covidData" :options="covidOptions" :events="chartEvents" ref="gChart" />
         </div>
-        
+
       </div>
       <div class="row card">
         <h6>
@@ -220,51 +168,27 @@
       </div>
     </div>
     <div v-if="permission == 'resident'">
-      <b-modal
-        id="modal-payment"
-        size="md"
-        title="Choose Mode of Payment"
-        centered
-        hide-footer
-      >
+      <b-modal id="modal-payment" size="md" title="Choose Mode of Payment" centered hide-footer>
         <div class="row">
           <div class="col text-center">
-            <button
-              type="button"
-              class="btn btn-primary btn-lg"
-              v-b-modal.modal-gcash
-            >
+            <button type="button" class="btn btn-primary btn-lg" v-b-modal.modal-gcash>
               GCASH QR CODE
             </button>
           </div>
           <div class="col text-center">
-            <button
-              type="button"
-              class="btn btn-warning btn-lg"
-              @click="viaBarangayHall()"
-            >
+            <button type="button" class="btn btn-warning btn-lg" @click="viaBarangayHall()">
               Via Barangay Hall
             </button>
           </div>
         </div>
       </b-modal>
-      <b-modal
-        id="modal-gcash"
-        size="md"
-        title="GCASH Payment"
-        centered
-        @ok.prevent="createGcash()"
-        @hidden="resetFields()"
-      >
+      <b-modal id="modal-gcash" size="md" title="GCASH Payment" centered @ok.prevent="createGcash()"
+        @hidden="resetFields()">
         <div class="row">
           <div class="text-center mb-3">
-            <img v-if="this.gcash.length > 0 "
-              :src="
-                'http://127.0.0.0/qr_code/' +
-                (this.gcash.length > 0 ? this.gcash[0].image : '')
-              "
-              width="300"
-            />
+            <img v-if="this.gcash.length > 0" :src="'http://127.0.0.0/qr_code/' +
+              (this.gcash.length > 0 ? this.gcash[0].image : '')
+              " width="300" />
             <h5 style="font-style: italic">
               {{ finTreasurer[0].fullname }}
             </h5>
@@ -272,13 +196,8 @@
           </div>
           <div class="form-group text-center">
             <label class="control-label">Attach proof of payment:</label>
-            <input
-              class="form-control"
-              v-on:change="onProfilePicChange($event)"
-              type="file"
-              id="imageFile"
-              accept="image/*"
-            />
+            <input class="form-control" v-on:change="onProfilePicChange($event)" type="file" id="imageFile"
+              accept="image/*" />
           </div>
         </div>
       </b-modal>
@@ -452,7 +371,7 @@ export default {
         ],
       },
 
-      occupationsOptions:{
+      occupationsOptions: {
         legend: { position: "top" },
         bar: { groupWidth: "100%" },
         // height: 400,
@@ -580,30 +499,30 @@ export default {
     },
 
     async fetchOccupations() {
-      
+
       this.loading = true;
       await axios.get(`/occupations`).then((response) => {
         let data = response.data;
         this.occupations.push(
-        [
-          "Year",
-          "Government Employee",
-          "Private Employee",
-          "Barangay Employee",
-          "Barangay Volunteers",
-          "OFW",
-          "Business",
-          "Carpenter",
-          "Laborer/Construction",
-          "Driver",
-          "Sari-sari Store",
-          "Helper",
-          "Self-Employed",
-          "Student",
-          "None"
-        ],[
+          [
+            "Year",
+            "Government Employee",
+            "Private Employee",
+            "Barangay Employee",
+            "Barangay Volunteers",
+            "OFW",
+            "Business",
+            "Carpenter",
+            "Laborer/Construction",
+            "Driver",
+            "Sari-sari Store",
+            "Helper",
+            "Self-Employed",
+            "Student",
+            "None"
+          ], [
           "2023",
-          data.government_employee, 
+          data.government_employee,
           data.private_employee,
           data.barangay_employee,
           data.barangay_volunteers,
@@ -624,7 +543,7 @@ export default {
     },
 
     async fetchPopulationByYear() {
-      
+
       this.loading = true;
       await axios.get(`/get-population-by-year`).then((response) => {
 
@@ -642,18 +561,18 @@ export default {
     },
 
     async fetchPopulationByType() {
-      
+
       this.loading = true;
       await axios.get(`/get-population-by-types`).then((response) => {
         console.log(response.data);
         let data = response.data;
         this.populationByTypeData.push(
           ["Population Type", "Male", "Female", "Out of school youth", "Senior Citizen", "4PS", "MCCT", "Household Heads"],
-          ["Year", data.male_counts, data.female_counts, data.oosy_counts, data.senior,  data.ps_counts,  data.mcct_counts,  data.household_heads]
+          ["Year", data.male_counts, data.female_counts, data.oosy_counts, data.senior, data.ps_counts, data.mcct_counts, data.household_heads]
         );
       });
       this.loading = false;
-    
+
     },
 
     async fetchRevenue() {
@@ -786,14 +705,14 @@ export default {
       this.loading = true;
       await axios.get(`/age-structure`).then((response) => {
         this.ageStructure.push(
-        [
-          "Year",
-          "Young Dependents",
-          "Working Population",
-          "Old Dependents",
-        ],
-        [ "2023", response.data.young_dependents, response.data.working_population, response.data.old_dependents ]
-      );
+          [
+            "Year",
+            "Young Dependents",
+            "Working Population",
+            "Old Dependents",
+          ],
+          ["2023", response.data.young_dependents, response.data.working_population, response.data.old_dependents]
+        );
       });
       this.loading = false;
     },

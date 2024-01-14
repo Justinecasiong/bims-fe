@@ -7,26 +7,18 @@
           <div class="dropdown col-lg-4 col-md-5">
             <div class="form-group mb-3">
               <label class="filter">Filter Status:</label>
-              <select
-                class="form-select"
-                id="inputGroupSelect01"
-                v-model="search_status"
-                v-on:click="
-                  currentPage = 1;
-                  permission == 'resident'  ?  fetchFindResidentCertificationRequest() : fetchCertificationRequest();
-                "
-              >
+              <select class="form-select" id="inputGroupSelect01" v-model="search_status" v-on:click="
+                currentPage = 1;
+              permission == 'resident' ? fetchFindResidentCertificationRequest() : fetchCertificationRequest();
+              ">
                 <option :value="'Pending'">Pending</option>
                 <option :value="'Printed'">Printed</option>
                 <option :value="'Approved'">Approved</option>
                 <option :value="'Paid'">Paid</option>
-                <option
-                  v-if="permission != 'resident'"
-                  :value="'Unpaid Certificates'"
-                >
+                <option v-if="permission != 'resident'" :value="'Unpaid Certificates'">
                   Unpaid Certificates
                 </option>
-                <option :value="'Rejected'">Rejected</option>
+                <option :value="'Rescheduled'">Rescheduled</option>
               </select>
             </div>
           </div>
@@ -56,41 +48,26 @@
         <div class="d-flex justify-content-center" v-if="loading">
           <div class="spinner-border text-center mt-3" role="status"></div>
         </div>
-        <table
-          class="table table-striped table-hover table-sm"
-          v-if="loading == false"
-        >
+        <table class="table table-striped table-hover table-sm" v-if="loading == false">
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th
-                scope="col"
-                v-if="permission == 'chairperson' || permission == 'secretary'"
-              >
+              <th scope="col" v-if="permission == 'chairperson' || permission == 'secretary'">
                 Name
               </th>
               <th scope="col">Certification</th>
               <th scope="col">Date of Request</th>
-              <th
-                scope="col"
-                v-if="permission == 'chairperson' || permission == 'secretary'"
-              >
+              <th scope="col" v-if="permission == 'chairperson' || permission == 'secretary'">
                 Purpose
               </th>
               <th scope="col">Status</th>
-              <th scope="col" v-if="search_status == 'Rejected'">Reason</th>
-              <th scope="col" v-if="search_status != 'Printed' && search_status != 'Rejected'">Action</th>
+              <th scope="col" v-if="search_status != 'Printed' && search_status != 'Rescheduled'">Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr
-              v-for="(certification_request, index) in filterStatus"
-              :key="certification_request.id"
-            >
+            <tr v-for="(certification_request, index) in filterStatus" :key="certification_request.id">
               <th scope="row">{{ index + 1 }}</th>
-              <td
-                v-if="permission == 'chairperson' || permission == 'secretary'"
-              >
+              <td v-if="permission == 'chairperson' || permission == 'secretary'">
                 {{ certification_request.resident.first_name }}
                 {{ certification_request.resident.last_name }}
               </td>
@@ -105,99 +82,53 @@
               <td v-if="search_status != 'Pending'">
                 {{ moment(certification_request.date).format("LL") }}
               </td>
-              <td
-                v-if="permission == 'chairperson' || permission == 'secretary'"
-              >
+              <td v-if="permission == 'chairperson' || permission == 'secretary'">
                 {{ certification_request.purpose }}
               </td>
               <td>
                 {{ certification_request.status }}
               </td>
-              <td
-                v-if="search_status == 'Rejected'"
-              >
-                {{ certification_request.reason }}
-              </td>
-              <td
-                v-if="
-                  permission == 'resident' &&
-                  certification_request.status == 'Pending'
-                "
-              >
-                <button
-                  class="btn btn-primary"
-                  v-b-modal.modal-edit
-                  @click="setPosition(certification_request)"
-                >
+              <td v-if="permission == 'resident' &&
+                certification_request.status == 'Pending'
+                ">
+                <button class="btn btn-primary" v-b-modal.modal-edit @click="setPosition(certification_request)">
                   <i class="fas fa-edit"></i>
                 </button>
-                <button
-                  class="btn btn-danger"
-                  v-b-modal.modal-delete
-                  @click="setPosition(certification_request)"
-                >
+                <button class="btn btn-danger" v-b-modal.modal-delete @click="setPosition(certification_request)">
                   <i class="fas fa-trash"></i>
                 </button>
               </td>
-              <td
-                v-if="
-                  (permission == 'chairperson' &&
-                    certification_request.status == 'Pending') ||
-                  (permission == 'secretary' &&
-                    certification_request.status == 'Pending')
-                "
-              >
-                <button
-                  class="btn btn-success"
-                  v-b-modal.modal-update
-                  @click="setPosition(certification_request)"
-                >
+              <td v-if="(permission == 'chairperson' &&
+                  certification_request.status == 'Pending') ||
+                (permission == 'secretary' &&
+                  certification_request.status == 'Pending')
+                ">
+                <button class="btn btn-success" v-b-modal.modal-update @click="setPosition(certification_request)">
                   <i class="fas fa-check"></i>
                 </button>
-                <button
-                  class="btn btn-danger"
-                  v-b-modal.modal-delete
-                  @click="setPosition(certification_request)"
-                >
+                <button class="btn btn-danger" v-b-modal.modal-delete @click="setPosition(certification_request)">
                   <i class="fas fa-times"></i>
                 </button>
               </td>
               <td v-if="certification_request.status == 'Approved'">
-                <button
-                  class="btn btn-primary"
-                  v-b-modal.modal-view
-                  @click="setPosition(certification_request)"
-                >
+                <button class="btn btn-primary" v-b-modal.modal-view @click="setPosition(certification_request)">
                   <i class="fas fa-eye"></i>
                 </button>
-                <button
-                  class="btn btn-success"
-                  @click="viewPrint(certification_request)"
-                  v-if="
-                    new Date(
-                      moment(certification_request.date).format('LL')
-                    ).getTime() <= new Date(moment(today).format('LL')) &&
-                    (permission == 'chairperson' || permission == 'secretary')
-                  "
-                >
+                <button class="btn btn-success" @click="viewPrint(certification_request)" v-if="new Date(
+                  moment(certification_request.date).format('LL')
+                ).getTime() <= new Date(moment(today).format('LL')) &&
+                  (permission == 'chairperson' || permission == 'secretary')
+                  ">
                   <i class="fas fa-file"></i>
                 </button>
               </td>
               <td v-if="certification_request.status == 'Paid'">
-                <button
-                  class="btn btn-primary"
-                  v-b-modal.modal-payment-view
-                  @click="findGcash(certification_request)"
-                >
+                <button class="btn btn-primary" v-b-modal.modal-payment-view @click="findGcash(certification_request)">
                   <i class="fas fa-eye"></i>
                 </button>
               </td>
               <td v-if="certification_request.status == 'Unpaid Certificates'">
-                <button
-                  class="btn btn-primary"
-                  v-b-modal.modal-payment
-                  @click="setPayment(certification_request)"
-                >
+                <button class="btn btn-primary" v-b-modal.modal-payment @click="setPayment(certification_request)">
                   <i class="fas fa-file"></i>
                 </button>
               </td>
@@ -205,66 +136,31 @@
           </tbody>
         </table>
         <div class="mt-3">
-          <b-pagination
-            v-model="currentPage"
-            prev-text="Prev"
-            next-text="Next"
-            :total-rows="rows"
-            :per-page="perPage"
-            align="center"
-            v-on:input="fetchCertificationRequest()"
-            style="align-items: flex-end"
-          ></b-pagination>
+          <b-pagination v-model="currentPage" prev-text="Prev" next-text="Next" :total-rows="rows" :per-page="perPage"
+            align="center" v-on:input="fetchCertificationRequest()" style="align-items: flex-end"></b-pagination>
         </div>
       </div>
 
-      <b-modal
-        id="modal-payment-view"
-        size="md"
-        title="Payment Review"
-        centered
-        @ok.prevent="approvedCertificates()"
-        @cancel.prevent="rejectCertificates()"
-        @hidden="resetFields()"
-        ok-title="Approve"
-        cancel-title="Reject"
-      >
+      <b-modal id="modal-payment-view" size="md" title="Payment Review" centered @ok.prevent="approvedCertificates()"
+        @cancel.prevent="rejectCertificates()" @hidden="resetFields()" ok-title="Approve" cancel-title="Reject">
         <div class="text-center">
-          <img
-            :src="'http://127.0.0.0/evidence/' + this.evidence"
-            width="300"
-          />
+          <img :src="'http://127.0.0.0/evidence/' + this.evidence" width="300" />
         </div>
       </b-modal>
 
-      <b-modal
-        id="modal-payment-view-without-btn"
-        size="md"
-        title="Payment Review"
-        centered
-        @hidden="resetFields()"
-        ok-title="Close"
-        ok-only
-      >
+      <b-modal id="modal-payment-view-without-btn" size="md" title="Payment Review" centered @hidden="resetFields()"
+        ok-title="Close" ok-only>
         <div class="text-center">
-          <img
-            :src="'http://127.0.0.0/evidence/' + this.evidence"
-            width="300"
-          />
+          <img :src="'http://127.0.0.0/evidence/' + this.evidence" width="300" />
         </div>
       </b-modal>
 
-      <b-modal id="modal-view" size="md" title="Set Schedule" ok-only centered>
+      <b-modal id="modal-view" size="md" title="Schedule" ok-only centered>
         <div class="form-group">
           <label for="certification_request" class="control-label">
             Date:
           </label>
-          <input
-            type="text"
-            v-model="scheduledDate"
-            class="form-control"
-            disabled
-          />
+          <input type="text" v-model="scheduledDate" class="form-control" disabled />
           <!-- <div v-if="this.errors">
                         <label style="color: red; font-weight: 500">{{
                             this.errors.date[0]
@@ -275,12 +171,7 @@
           <label for="certification_request" class="control-label">
             Time:
           </label>
-          <select
-            class="form-select"
-            id="inputGroupSelect01"
-            v-model="time"
-            disabled
-          >
+          <select class="form-select" id="inputGroupSelect01" v-model="time" disabled>
             <option :value="'8:00AM-12:00NN'">8:00AM-12:00NN</option>
             <option :value="'1:00PM-5:00PM'">1:00PM-5:00PM</option>
           </select>
@@ -292,16 +183,8 @@
         </div>
       </b-modal>
 
-      <b-modal
-        id="modal-update"
-        size="md"
-        title="Set Schedule"
-        centered
-        @ok.prevent="approveRequest()"
-        @hidden="resetFields()"
-        ok-title="Approve"
-        ok-only
-      >
+      <b-modal id="modal-update" size="md" title="Select date and time of issuance" centered @ok.prevent="approveRequest()"
+        @hidden="resetFields()" ok-title="Approve" ok-only>
         <div class="form-group">
           <label for="certification_request" class="control-label">
             Date:
@@ -312,11 +195,7 @@
           <label for="certification_request" class="control-label">
             Time:
           </label>
-          <select
-            class="form-select"
-            id="inputGroupSelect01"
-            v-model="scheduledTime"
-          >
+          <select class="form-select" id="inputGroupSelect01" v-model="scheduledTime">
             <option :value="'8:00AM-12:00NN'">8:00AM-12:00NN</option>
             <option :value="'1:00PM-5:00PM'">1:00PM-5:00PM</option>
           </select>
@@ -328,31 +207,14 @@
         </div>
       </b-modal>
 
-      <b-modal
-        id="modal-edit"
-        size="md"
-        title="Edit Request"
-        centered
-        @ok.prevent="updateCertificationRequest()"
-        ok-only
-        @hidden="resetFields()"
-        ok-title="Update"
-      >
+      <b-modal id="modal-edit" size="md" title="Edit Request" centered @ok.prevent="updateCertificationRequest()" ok-only
+        @hidden="resetFields()" ok-title="Update">
         <div class="form-group">
           <label for="certification_request" class="control-label">
             Type of Certification:
           </label>
-          <select
-            class="form-select"
-            name="civil-status"
-            id="civil_status"
-            v-model="certification_id"
-          >
-            <option
-              v-for="certification in certifications"
-              :key="certification.id"
-              :value="certification.id"
-            >
+          <select class="form-select" name="civil-status" id="civil_status" v-model="certification_id">
+            <option v-for="certification in certifications" :key="certification.id" :value="certification.id">
               {{ certification.certification_description }}
             </option>
           </select>
@@ -366,20 +228,15 @@
           <label for="certification_request" class="control-label">
             Purpose:
           </label>
-          <input
-            v-model="purpose"
-            type="text"
-            class="form-control"
-            name="certification_request"
-            id="certification_request"
-          />
+          <input v-model="purpose" type="text" class="form-control" name="certification_request"
+            id="certification_request" />
           <!-- <div v-if="this.errors">
                         <label style="color: red; font-weight: 500">{{
                             this.errors.purpose[0]
                         }}</label>
                     </div> -->
         </div>
-        <div class="form-group">
+        <div class="form-group"  v-if="permission != 'resident'">
           <label for="certification_request" class="control-label">
             Expected Date:
           </label>
@@ -390,46 +247,25 @@
                         }}</label>
                     </div> -->
         </div>
-        <div class="form-group">
+        <div class="form-group"  v-if="permission != 'resident'">
           <label for="certification_request" class="control-label">
             Expected Time:
           </label>
-          <select
-            class="form-select"
-            id="inputGroupSelect01"
-            v-model="expected_time"
-          >
+          <select class="form-select" id="inputGroupSelect01" v-model="expected_time">
             <option :value="'8:00AM-12:00NN'">8:00AM-12:00NN</option>
             <option :value="'1:00PM-5:00PM'">1:00PM-5:00PM</option>
           </select>
         </div>
       </b-modal>
 
-      <b-modal
-        id="modal-add"
-        size="md"
-        title="Request Certification"
-        centered
-        @ok.prevent="createCertificationRequest()"
-        ok-only
-        @hidden="resetFields()"
-        ok-title="Request"
-      >
+      <b-modal id="modal-add" size="md" title="Request Certification" centered @ok.prevent="createCertificationRequest()"
+        ok-only @hidden="resetFields()" ok-title="Request">
         <div class="form-group">
           <label for="certification_request" class="control-label">
             Type of Certification:
           </label>
-          <select
-            class="form-select"
-            name="civil-status"
-            id="civil_status"
-            v-model="certification_id"
-          >
-            <option
-              v-for="certification in certifications"
-              :key="certification.id"
-              :value="certification.id"
-            >
+          <select class="form-select" name="civil-status" id="civil_status" v-model="certification_id">
+            <option v-for="certification in certifications" :key="certification.id" :value="certification.id">
               {{ certification.certification_description }}
             </option>
           </select>
@@ -444,58 +280,38 @@
             <label for="certification_request" class="control-label">
               Business Name:
             </label>
-            <input
-              v-model="business_name"
-              type="text"
-              class="form-control"
-              name="certification_request"
-              id="certification_request"
-            />
+            <input v-model="business_name" type="text" class="form-control" name="certification_request"
+              id="certification_request" />
           </div>
           <div class="form-group">
             <label for="certification_request" class="control-label">
               Business Owner:
             </label>
-            <input
-              v-model="business_owner"
-              type="text"
-              class="form-control"
-              name="certification_request"
-              id="certification_request"
-            />
+            <input v-model="business_owner" type="text" class="form-control" name="certification_request"
+              id="certification_request" />
           </div>
           <div class="form-group">
             <label for="certification_request" class="control-label">
               Business Nature:
             </label>
-            <input
-              v-model="business_nature"
-              type="text"
-              class="form-control"
-              name="certification_request"
-              id="certification_request"
-            />
+            <input v-model="business_nature" type="text" class="form-control" name="certification_request"
+              id="certification_request" />
           </div>
         </div>
 
         <div class="form-group">
           <label for="certification_request" class="control-label">
-            Purpose:
+            Purpose (English Only):
           </label>
-          <input
-            v-model="purpose"
-            type="text"
-            class="form-control"
-            name="certification_request"
-            id="certification_request"
-          />
+          <input v-model="purpose" type="text" class="form-control" name="certification_request"
+            id="certification_request" />
           <!-- <div v-if="this.errors">
                         <label style="color: red; font-weight: 500">{{
                             this.errors.purpose[0]
                         }}</label>
                     </div> -->
         </div>
-        <div class="form-group">
+        <div class="form-group" v-if="permission != 'resident'" >
           <label for="certification_request" class="control-label">
             Expected Date:
           </label>
@@ -506,15 +322,11 @@
             }}</label>
           </div>
         </div>
-        <div class="form-group">
+        <div class="form-group"  v-if="permission != 'resident'" >
           <label for="certification_request" class="control-label">
             Expected Time:
           </label>
-          <select
-            class="form-select"
-            id="inputGroupSelect01"
-            v-model="expected_time"
-          >
+          <select class="form-select" id="inputGroupSelect01" v-model="expected_time">
             <option :value="'8:00AM-12:00NN'">8:00AM-12:00NN</option>
             <option :value="'1:00PM-5:00PM'">1:00PM-5:00PM</option>
           </select>
@@ -526,16 +338,8 @@
         </div>
       </b-modal>
 
-      <b-modal
-        id="modal-payment"
-        size="md"
-        title="Certification Payment"
-        centered
-        @ok.prevent="payCertificate()"
-        ok-only
-        @hidden="resetFields()"
-        ok-title="Generate"
-      >
+      <b-modal id="modal-payment" size="md" title="Certification Payment" centered @ok.prevent="payCertificate()" ok-only
+        @hidden="resetFields()" ok-title="Generate">
         <div class="form-group">
           <label for="certification_request" class="control-label">
             Amount:
@@ -546,32 +350,40 @@
           <label for="certification_request" class="control-label">
             Payment Details:
           </label>
-          <input
-            type="text"
-            v-model="payment_detail"
-            class="form-control"
-            disabled
-          />
+          <input type="text" v-model="payment_detail" class="form-control" disabled />
         </div>
       </b-modal>
 
-      <b-modal
-        id="modal-delete"
-        size="md"
-        title="Reject Request"
-        centered
-        @hidden="resetFields()"
-        @ok.prevent="deletePosition()"
-        ok-title="Confirm"
-      >
-        Enter reason for rejection
-        <input
-              v-model="reason"
-              type="text"
-              class="form-control"
-              name="rejection_reason"
-              id="rejection_reason"
-            />
+      <b-modal id="modal-delete" size="md" title="Reschedule Request" centered @hidden="resetFields()"
+        @ok.prevent="deletePosition()" ok-title="Confirm">
+        Enter reason for rescheduling
+        <input v-model="reason" type="text" class="form-control" name="rejection_reason" id="rejection_reason" />
+
+        <div class="form-group">
+          <label for="certification_request" class="control-label">
+            Reschedule Date:
+          </label>
+          <input type="date" v-model="reschedule_date" class="form-control" />
+          <div v-if="errors.reschedule_date">
+            <label style="color: red; font-weight: 500">{{
+              this.errors.reschedule_date
+            }}</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="certification_request" class="control-label">
+            Reschedule Time:
+          </label>
+          <select class="form-select" v-model="reschedule_time">
+            <option :value="'8:00AM-12:00NN'">8:00AM-12:00NN</option>
+            <option :value="'1:00PM-5:00PM'">1:00PM-5:00PM</option>
+          </select>
+          <div v-if="errors.reschedule_time">
+            <label style="color: red; font-weight: 500">{{
+              this.errors.reschedule_time
+            }}</label>
+          </div>
+        </div>
       </b-modal>
     </div>
   </div>
@@ -592,6 +404,8 @@ export default {
       date: null,
       expected_time: null,
       expected_date: null,
+      reschedule_time: null,
+      reschedule_date: null,
       certification_requests: [],
       certifications: [],
       errors: [],
@@ -725,7 +539,7 @@ export default {
               axios.post("/business_permit", data2);
             }
             this.$toast.success("Certification Request has been created.");
-            this.permission == 'resident'  ?  this.fetchFindResidentCertificationRequest() : this.fetchCertificationRequest();
+            this.permission == 'resident' ? this.fetchFindResidentCertificationRequest() : this.fetchCertificationRequest();
             this.resetFields();
             this.$bvModal.hide("modal-add");
           })
@@ -766,27 +580,27 @@ export default {
     },
 
     async viewPrint(data) {
-        if (data.certification_id == 1) {
-            this.$router.push({
-              path: `/certificate/barangay_certificates/${data.id}`,
-            });
-          } else if (
-            data.certification_id == 2
-          ) {
-            this.$router.push({
-              path: `/certificate/barangay_clearance/${data.id}`,
-            });
-          } else if (
-            data.certification_id  == 4
-          ) {
-            this.$router.push({
-              path: `/certificate/Business_Clearance/${data.id}`,
-            });
-          } else if (data.certification_id == 3) {
-          this.$router.push({
-            path: `/certificate/indigency/${data.id}`,
-          });
-        }
+      if (data.certification_id == 1) {
+        this.$router.push({
+          path: `/certificate/barangay_certificates/${data.id}`,
+        });
+      } else if (
+        data.certification_id == 2
+      ) {
+        this.$router.push({
+          path: `/certificate/barangay_clearance/${data.id}`,
+        });
+      } else if (
+        data.certification_id == 4
+      ) {
+        this.$router.push({
+          path: `/certificate/Business_Clearance/${data.id}`,
+        });
+      } else if (data.certification_id == 3) {
+        this.$router.push({
+          path: `/certificate/indigency/${data.id}`,
+        });
+      }
     },
 
     async findGcashToGenerate(data) {
@@ -859,7 +673,7 @@ export default {
       }
       if (
         new Date().getTime() >=
-          new Date(moment(this.date).format("L")).getTime() &&
+        new Date(moment(this.date).format("L")).getTime() &&
         !this.isToday(new Date(this.date))
       ) {
         this.$toast.error("Invalid date.");
@@ -896,7 +710,7 @@ export default {
               this.permission == "secretary"
             ) {
               this.$toast.success("Certification Request has been updated.");
-              this.permission == 'resident'  ?  this.fetchFindResidentCertificationRequest() : this.fetchCertificationRequest();
+              this.permission == 'resident' ? this.fetchFindResidentCertificationRequest() : this.fetchCertificationRequest();
               this.resetFields();
             } else if (this.permission == "resident") {
               this.$toast.success("Certification Request has been updated.");
@@ -920,7 +734,7 @@ export default {
 
         date: new Date(
           new Date(this.payment_date).getTime() -
-            new Date().getTimezoneOffset() * 60000
+          new Date().getTimezoneOffset() * 60000
         )
           .toISOString()
           .split("T")[0],
@@ -932,7 +746,7 @@ export default {
           this.permission == "secretary"
         ) {
           this.$toast.success("Certification Request has been updated.");
-          this.permission == 'resident'  ?  this.fetchFindResidentCertificationRequest() : this.fetchCertificationRequest();
+          this.permission == 'resident' ? this.fetchFindResidentCertificationRequest() : this.fetchCertificationRequest();
           this.resetFields();
         }
 
@@ -1006,7 +820,9 @@ export default {
         certification_id: this.certification_id,
         purpose: this.purpose,
         reason: this.reason,
-        status: "Rejected",
+        status: "Rescheduled",
+        time: this.reschedule_time,
+        date: this.reschedule_date,
       };
 
       await axios
@@ -1016,7 +832,7 @@ export default {
             this.permission == "chairperson" ||
             this.permission == "secretary"
           ) {
-            this.$toast.success("Certification Request has been rejected.");
+            this.$toast.success("Certification Request has been rescheduled.");
             this.fetchCertificationRequest();
             this.resetFields();
           } else if (this.permission == "resident") {
@@ -1047,7 +863,7 @@ export default {
       await axios
         .put(`/certification_request/${data.id}`, data)
         .then((response) => {
-            this.generateCertificate()
+          this.generateCertificate()
           return response;
         })
         .catch((error) => {
@@ -1073,17 +889,17 @@ export default {
         this.$toast.success("Certification payment has been successful.");
         this.$bvModal.hide("modal-payment");
         if (
-            this.permission == "chairperson" ||
-            this.permission == "secretary"
-          ) {
-            this.$toast.success("Certification Request has been updated.");
-            this.fetchCertificationRequest();
-            this.resetFields();
-          } else if (this.permission == "resident") {
-            this.$toast.success("Certification Request has been updated.");
-            this.fetchFindResidentCertificationRequest();
-            this.resetFields();
-          }
+          this.permission == "chairperson" ||
+          this.permission == "secretary"
+        ) {
+          this.$toast.success("Certification Request has been updated.");
+          this.fetchCertificationRequest();
+          this.resetFields();
+        } else if (this.permission == "resident") {
+          this.$toast.success("Certification Request has been updated.");
+          this.fetchFindResidentCertificationRequest();
+          this.resetFields();
+        }
 
         if (this.payment_detail == "Barangay Certificate") {
           this.$router.push({

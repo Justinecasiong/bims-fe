@@ -130,17 +130,14 @@
                                 {{ this.residents.first_name.toUpperCase() }}
                                 {{ this.residents.middle_name.charAt(0) }}.
                                 {{ this.residents.last_name.toUpperCase() }} </b
-                            >, is a permanent resident of
-                            <b>{{ this.residents.address.toUpperCase() }}</b
-                            >. and that he/she is known to me to be of good
+                            >, is a permanent resident of Sto. Nino Extension, Barangay 6-A, Tacloban City and that he/she is known to me to be of good
                             moral character.
                         </h5>
                         <br />
                         <h5>
                             &nbsp;&nbsp; &nbsp; &nbsp; This
                             certification/clearance is hereby issued to the
-                            above-named person for whatever legal purpose it may
-                            serve him/her best.
+                            above-named person for <b>{{ this.purpose }}</b>
                         </h5>
                         <br />
                         <h5>
@@ -208,6 +205,7 @@ export default {
 
             officials: [],
             residents: [],
+            purpose: '',
             currentPage: 1,
         };
     },
@@ -258,6 +256,7 @@ export default {
                 .get(`/certification_request?search=${this.id}`)
                 .then((response) => {
                     console.log(response);
+                    this.purpose = response.data.data[0].purpose
                     this.residents = response.data.data[0].resident;
                 });
             this.loading = false;
