@@ -77,7 +77,7 @@
                 }}
               </td>
               <td v-if="search_status == 'Pending'">
-                {{ moment(certification_request.expected_date).format("LL") }}
+                No Schedule Yet
               </td>
               <td v-if="search_status != 'Pending'">
                 {{ moment(certification_request.date).format("LL") }}
