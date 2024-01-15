@@ -99,11 +99,11 @@
                 </button>
               </td>
               <td v-if="(permission == 'chairperson' &&
-                  certification_request.status == 'Pending') ||
+                certification_request.status == 'Pending') ||
                 (permission == 'secretary' &&
                   certification_request.status == 'Pending')
                 ">
-                <button class="btn btn-success" v-b-modal.modal-update @click="setPosition(certification_request)">
+                <button class="btn btn-success" v-b-modal.modal-view-member @click="viewUser(certification_request)">
                   <i class="fas fa-check"></i>
                 </button>
                 <button class="btn btn-danger" v-b-modal.modal-delete @click="setPosition(certification_request)">
@@ -183,8 +183,8 @@
         </div>
       </b-modal>
 
-      <b-modal id="modal-update" size="md" title="Select date and time of issuance" centered @ok.prevent="approveRequest()"
-        @hidden="resetFields()" ok-title="Approve" ok-only>
+      <b-modal id="modal-update" size="md" title="Select date and time of issuance" centered
+        @ok.prevent="approveRequest()" @hidden="resetFields()" ok-title="Approve" ok-only>
         <div class="form-group">
           <label for="certification_request" class="control-label">
             Date:
@@ -236,7 +236,7 @@
                         }}</label>
                     </div> -->
         </div>
-        <div class="form-group"  v-if="permission != 'resident'">
+        <div class="form-group" v-if="permission != 'resident'">
           <label for="certification_request" class="control-label">
             Expected Date:
           </label>
@@ -247,7 +247,7 @@
                         }}</label>
                     </div> -->
         </div>
-        <div class="form-group"  v-if="permission != 'resident'">
+        <div class="form-group" v-if="permission != 'resident'">
           <label for="certification_request" class="control-label">
             Expected Time:
           </label>
@@ -311,7 +311,7 @@
                         }}</label>
                     </div> -->
         </div>
-        <div class="form-group" v-if="permission != 'resident'" >
+        <div class="form-group" v-if="permission != 'resident'">
           <label for="certification_request" class="control-label">
             Expected Date:
           </label>
@@ -322,7 +322,7 @@
             }}</label>
           </div>
         </div>
-        <div class="form-group"  v-if="permission != 'resident'" >
+        <div class="form-group" v-if="permission != 'resident'">
           <label for="certification_request" class="control-label">
             Expected Time:
           </label>
@@ -385,6 +385,287 @@
           </div>
         </div>
       </b-modal>
+
+      <b-modal class="view_member_modal" id="modal-view-member" title="Resident Information" size="xl" centered
+        :hide-footer="true">
+        <div class="col">
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="household-number" class="control-label">
+                  Household No.
+                </label>
+                <input readonly type="text" class="form-control" id="household-num" placeholder="Enter Household Number"
+                  v-model="resident.household_num" />
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="family-number" class="control-label">
+                  Family Number:
+                </label>
+                <input readonly type="text" class="form-control" id="family-number" placeholder="Enter Family Number"
+                  v-model="resident.family_num" />
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="first-name" class="control-label">
+                  First Name:
+                </label>
+                <input readonly type="text" class="form-control" id="first-name" placeholder="Enter First Name"
+                  v-model="resident.first_name" />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="middle-name" class="control-label">
+                  Middle Name:
+                </label>
+                <input readonly type="text" class="form-control" id="middle-name" placeholder="Enter Middle Name"
+                  v-model="resident.middle_name" />
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="last-name" class="control-label">
+                  Last Name:
+                </label>
+                <input readonly type="text" class="form-control" id="last-name" placeholder="Enter Last Name"
+                  v-model="resident.last_name" />
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="gender" class="control-label"> Sex: </label>
+                <input readonly type="text" class="form-control" id="gender" placeholder="Enter Sex"
+                  v-model="resident.sex" />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="birthdate" class="control-label">
+                  Birthdate:
+                </label>
+                <input readonly type="date" class="form-control" id="birthdate" placeholder="Enter Birthdate"
+                  v-model="resident.birthdate" />
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="civil-status" class="control-label">
+                  Civil Status:
+                </label>
+                <select disabled class="form-select" name="civil-status" id="civil_status"
+                  v-model="resident.civil_status">
+                  <option value="Single">Single</option>
+                  <option value="Married">Married</option>
+                  <option value="Divorced">Divorced</option>
+                  <option value="Widowed">Widowed</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="relationship" class="control-label">
+                  Relationship:
+                </label>
+                <select disabled class="form-select" name="relationship" id="relationship"
+                  v-model="resident.relationship">
+                  <option value="Father">Father</option>
+                  <option value="Mother">Mother</option>
+                  <option value="Son">Son</option>
+                  <option value="Daughter">Daughter</option>
+                  <option value="Cousin">Cousin</option>
+                  <option value="Niece">Niece</option>
+                  <option value="Nephew">Nephew</option>
+                  <option value="Grandmother">Grandmother</option>
+                  <option value="Grandfather">Grandfather</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="oosy" class="control-label">
+                  Out of School Youth:
+                </label>
+                <select disabled class="form-select" name="oosy" id="oosy" v-model="resident.oosy">
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="education" class="control-label">
+                  Highest Educational Attainment:
+                </label>
+                <select disabled class="form-select" name="education" id="education" v-model="resident.education">
+                  <option value="Day Care">Day Care</option>
+                  <option value="Nursery">Nursery</option>
+                  <option value="Kinder">Kinder</option>
+                  <option value="Elementary Level">Elementary Level</option>
+                  <option value="Elementary Grad">Elementary Grad</option>
+                  <option value="ALS High School">ALS High School</option>
+                  <option value="High School Level">High School Level</option>
+                  <option value="High School Grad">High School Grad</option>
+                  <option value="Senior High">Senior High</option>
+                  <option value="Vocational">Vocational</option>
+                  <option value="College Level">College Level</option>
+                  <option value="College Grad">College Grad</option>
+                  <option value="Post Graduate">Post Graduate</option>
+                  <option value="N/A">N/A</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="occupation" class="control-label">
+                  Occupation:
+                </label>
+                <select disabled class="form-select" name="occupation" id="occupation" v-model="resident.occupation">
+                  <option value="Government Employee">
+                    Government Employee
+                  </option>
+                  <option value="Private Employee">Private Employee</option>
+                  <option value="Barangay Employee">Barangay Employee</option>
+                  <option value="Barangay Volunteers">
+                    Barangay Volunteers
+                  </option>
+                  <option value="OFW">OFW</option>
+                  <option value="Business">Business</option>
+                  <option value="Carpenter">Carpenter</option>
+                  <option value="Laborer/Construction">
+                    Laborer/Construction
+                  </option>
+                  <option value="Driver">Driver</option>
+                  <option value="Sari-sari Store">Sari-sari Store</option>
+                  <option value="Helper">Helper</option>
+                  <option value="Vendor">Vendor</option>
+                  <option value="Self-Employed">Self-Employed</option>
+                  <option value="Student">Student</option>
+                  <option value="None">None</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="method" class="control-label">
+                  Family Planning Method:
+                </label>
+                <select disabled class="form-select" name="method" id="fp-method" v-model="resident.fp_method">
+                  <option value="Vasectomy">Vasectomy</option>
+                  <option value="Tubal Ligation">Tubal Ligation</option>
+                  <option value="Implant">Implant</option>
+                  <option value="Condom">Condom</option>
+                  <option value="IUD">IUD</option>
+                  <option value="Pills">Pills</option>
+                  <option value="Injectable">Injectable</option>
+                  <option value="NFP">NFP</option>
+                  <option value="None">None</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="pwd-status" class="control-label">
+                  PWD Status:
+                </label>
+                <select disabled class="form-select" name="pwd-status" id="pwd_status" v-model="resident.pwd_status">
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="senior-citizen" class="control-label">
+                  Senior Citizen:
+                </label>
+                <select disabled class="form-select" name="senior-citizen" id="senior_citizen"
+                  v-model="resident.senior_citizen">
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="residency" class="control-label">
+                  How long of Residency:
+                </label>
+                <br />
+                <small> Year Started </small>
+                <select disabled class="form-control" id="residency" v-model="resident.residency">
+                  <option v-for="(year, index) in years" :key="index" :value="year">
+                    {{ year }}
+                  </option>
+                </select>
+                <div v-if="this.errors.residency">
+                  <label style="color: red; font-weight: 500">{{
+                    this.errors.residency[0]
+                  }}</label>
+                </div>
+                <small> Year Ended </small>
+                <select disabled class="form-control" id="residency_end" v-model="resident.residency_end">
+                  <option v-bind:value="null">
+                    Present (Currently a resident)
+                  </option>
+                  <option v-for="(year, index) in years" :key="index" :value="year">
+                    {{ year }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="address" class="control-label">
+                  Previous Address:
+                </label>
+                <input readonly type="text" class="form-control" id="address" placeholder="Enter Address"
+                  v-model="resident.address" />
+              </div>
+
+            </div>
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label for="first-name" class="control-label"> Zone: </label>
+                <select disabled class="form-select" name="zone" id="zone" v-model="resident.zone_id">
+                  <option v-for="zone in zones" :key="zone.id" :value="zone.id">
+                    {{ zone.zone_description }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label for="remarks" class="control-label"> Remarks: </label>
+                <input readonly type="text" class="form-control" id="remarks" placeholder="Enter here"
+                  v-model="resident.remarks" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 d-flex justify-content-end">
+          <button class="btn btn-danger" type="button" @click="closeViewMemberDetails">
+            Cancel
+          </button>
+          <button class="btn btn-primary" type="submit" @click="openModalEdit">APPROVE</button>
+        </div>
+      </b-modal>
     </div>
   </div>
 </template>
@@ -405,6 +686,7 @@ export default {
       expected_time: null,
       expected_date: null,
       reschedule_time: null,
+      resident: [],
       reschedule_date: null,
       certification_requests: [],
       certifications: [],
@@ -430,6 +712,7 @@ export default {
 
       loading: false,
       currentPage: 1,
+      years: [],
       rows: 0,
       perPage: 0,
 
@@ -445,10 +728,56 @@ export default {
         return data.status.includes(this.search_status);
       });
     },
+    zones() {
+      return this.$store.getters["ZONES/GET_ZONES"];
+    },
   },
 
   methods: {
+    generateYears() {
+      var currentYear = new Date().getFullYear();
+      this.years = [];
+      for (var i = currentYear; i > currentYear - 100; i--) {
+        this.years.push(i);
+      }
+    },
+    async fetchZones() {
+      await this.$store.dispatch("ZONES/FETCH_ZONES");
+    },
+    viewUser(certificate_request) {
+      this.resident = certificate_request.full_info_as_head 
+        ? certificate_request.full_info_as_head : certificate_request.full_info_as_member 
+        ? certificate_request.full_info_as_member : certificate_request.resident;
+        this.setPosition(certificate_request);
+    },
+    closeViewMemberDetails() {
+      this.$bvModal.hide("modal-view-member");
+    },
+    openModalEdit() {
+      this.$bvModal.hide("modal-view-member");
+      this.$bvModal.show("modal-update");
+    },
     async fetchFindResidentCertificationRequest() {
+      this.loading = true;
+      await axios
+        .post(
+          `/find-resident-certificate?resident_id=${this.resident_id}&page=${this.currentPage}&status=${this.search_status}`,
+          this.resident_id
+        )
+        .then((response) => {
+          this.certification_requests = response.data.data;
+          this.time = this.certification_requests.time;
+          this.currentPage = response.data.current_page;
+          this.rows = response.data.total;
+          this.perPage = response.data.per_page;
+        })
+        .catch((error) => {
+          return error.response;
+        });
+      this.loading = false;
+    },
+
+    async getUser() {
       this.loading = true;
       await axios
         .post(
@@ -935,6 +1264,7 @@ export default {
   },
 
   mounted() {
+    this.generateYears();
     if (this.permission == "chairperson" || this.permission == "secretary") {
       this.fetchCertificationRequest();
       this.fetchCertification();
